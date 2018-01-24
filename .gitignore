@@ -1,0 +1,22 @@
+.DS_Store
+online-ordering-system-web/node_modules/
+online-ordering-system-admin/node_modules/
+online-ordering-system-service/node_modules/
+/dist/
+online-ordering-system-web/npm-debug.log*
+online-ordering-system-web/yarn-debug.log*
+online-ordering-system-web/yarn-error.log*
+online-ordering-system-admin/npm-debug.log*
+online-ordering-system-admin/yarn-debug.log*
+online-ordering-system-admin/yarn-error.log*
+online-ordering-system-service/npm-debug.log*
+online-ordering-system-service/yarn-debug.log*
+online-ordering-system-service/yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
