@@ -25,16 +25,14 @@
         </div>
       </flexbox-item>
     </flexbox>
+    <div>{{userInfo}}</div>
   </div>
 </template>
 
 <script>
-  import {
-    Swiper,
-    Flexbox,
-    FlexboxItem
-  } from 'vux'
+  import { Swiper, Flexbox, FlexboxItem } from 'vux'
   import axios from 'axios'
+  import { mapGetters } from 'vuex'
   const baseList = [{
     url: 'http://m.baidu.com',
     img: 'https://static.vux.li/demo/1.jpg',
@@ -68,6 +66,11 @@
         .catch(error => {
           console.log(error)
         })
+    },
+    computed: {
+      ...mapGetters([
+        'userInfo'
+      ])
     },
     methods: {
       demo07_onIndexChange(index) {

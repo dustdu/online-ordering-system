@@ -72,7 +72,7 @@
     },
     methods: {
       itemClick() {
-        this.$vux.toast.text('Loading')
+        console.log()
       }
     }
   }

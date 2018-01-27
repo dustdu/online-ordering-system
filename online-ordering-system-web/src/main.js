@@ -3,8 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import FastClick from 'fastclick'
-import { getToken } from './utils/auth'
+import { getToken, getUserInfo } from './utils/cookies'
 import { ToastPlugin } from 'vux'
 import './assets/font-awesome-4.7.0/css/font-awesome.min.css'
 
@@ -18,7 +19,13 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next({ path: '/' })
     } else {
-      next()
+      if (store.getters.userInfo.length === 0) {
+        const userInfo = JSON.parse(getUserInfo())
+        store.commit('userInfo', userInfo)
+        next()
+      } else {
+        next()
+      }
     }
   } else {
     if (to.path === '/login') {
@@ -33,6 +40,7 @@ router.beforeEach((to, from, next) => {
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: {
     App
