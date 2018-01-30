@@ -58,6 +58,15 @@
                 path: '/dishes/add'
               }
             ]
+          },
+          {
+            name: '订单',
+            routers: [
+              {
+                name: '订单列表',
+                path: '/order/list'
+              }
+            ]
           }
         ]
       }
