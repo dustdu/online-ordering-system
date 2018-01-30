@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     添加
   </div>
 </template>

@@ -94,12 +94,6 @@
 </script>
 
 <style lang="scss">
-.list-wrap {
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0,0,0,.05);
-}
 .app-container {
   .radio-group {
     text-align: center;
@@ -109,7 +103,6 @@
     .warning-row {
       background: oldlace;
     }
-
     .success-row {
       background: #f0f9eb;
     }
