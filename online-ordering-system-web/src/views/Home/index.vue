@@ -31,7 +31,6 @@
 
 <script>
   import { Swiper, Flexbox, FlexboxItem } from 'vux'
-  import axios from 'axios'
   import { mapGetters } from 'vuex'
   const baseList = [{
     url: 'http://m.baidu.com',
@@ -59,13 +58,14 @@
       }
     },
     created() {
-      axios.get('http://localhost:3000/users')
-        .then(response => {
-          console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      // axios.get('http://localhost:3000/users')
+      //   .then(response => {
+      //     console.log(response.data)
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
+      console.log(new Date().getTime())
     },
     computed: {
       ...mapGetters([
