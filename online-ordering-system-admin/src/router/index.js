@@ -5,6 +5,7 @@ import Login from '../views/Login'
 import Dashboard from '../views/DataAnalysis/Dashboard.vue'
 import DishesList from '../views/Dishes/DishesList.vue'
 import AddDishes from '../views/Dishes/AddDishes.vue'
+import OrderList from '../views/Order/OrderList.vue'
 
 Vue.use(Router)
 
@@ -43,6 +44,19 @@ export default new Router({
           path: 'add',
           name: 'AddDishes',
           component: AddDishes
+        }
+      ]
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: Layout,
+      redirect: '/order/list',
+      children: [
+        {
+          path: 'list',
+          name: 'OrderList',
+          component: OrderList
         }
       ]
     }
