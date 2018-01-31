@@ -8,12 +8,12 @@
       >
         <el-table-column
           prop="id"
-          label="商品编号"
+          label="用户ID"
           width="80">
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="商品名称"
+          prop="nickname"
+          label="昵称"
           width="120">
         </el-table-column>
         <!-- <el-table-column
@@ -22,26 +22,22 @@
           width="180">
         </el-table-column> -->
         <el-table-column
-          prop="price"
-          label="价格"
+          prop="truename"
+          label="真实姓名"
           width="120">
         </el-table-column>
         <el-table-column
-          prop="createtime"
-          label="添加时间"
+          prop="registertime"
+          label="注册时间"
           width="120">
         </el-table-column>
         <el-table-column
           label="操作"
-          width="180">
+          width="90">
           <template slot-scope="scope">
             <el-button
               type="primary">
-              编辑
-            </el-button>
-            <el-button
-              type="danger">
-              下架
+              查看
             </el-button>
           </template>
         </el-table-column>
@@ -62,46 +58,46 @@
     data() {
       return {
         tableData3: [{
-          id: 'item-100',
-          name: '辣子鸡',
-          price: '￥20',
-          createtime: '2017-12-12',
+          id: 'user-100',
+          nickname: '小李',
+          truename: '李刚',
+          registertime: '2017-12-12',
           remark: ''
         }, {
-          id: 'item-101',
-          name: '蚂蚁上树',
-          price: '￥20',
-          createtime: '2017-12-12',
+          id: 'user-101',
+          nickname: '小王',
+          truename: '王刚',
+          registertime: '2017-12-12',
           remark: ''
         }, {
-          id: 'item-102',
-          name: '烤串',
-          price: '￥20',
-          createtime: '2017-12-12',
+          id: 'user-102',
+          nickname: '小红',
+          truename: '王红',
+          registertime: '2017-12-12',
           remark: ''
         }, {
-          id: 'item-103',
-          name: '汉堡',
-          price: '￥20',
-          createtime: '2017-12-12',
+          id: 'user-103',
+          nickname: '小刘',
+          truename: '刘海',
+          registertime: '2017-12-12',
           remark: ''
         }, {
-          id: 'item-104',
-          name: '黄焖鸡',
-          price: '￥20',
-          createtime: '2017-12-12',
+          id: 'user-104',
+          nickname: '小马',
+          truename: '马刚',
+          registertime: '2017-12-12',
           remark: ''
         }, {
-          id: 'item-105',
-          name: '红烧茄子',
-          price: '￥20',
-          createtime: '2017-12-12',
+          id: 'user-105',
+          nickname: '小白',
+          truename: '白白',
+          registertime: '2017-12-12',
           remark: ''
         }, {
-          id: 'item-106',
-          name: '小炒肉',
-          price: '￥20',
-          createtime: '2017-12-12',
+          id: 'user-106',
+          nickname: '小兰',
+          truename: '李兰',
+          registertime: '2017-12-12',
           remark: ''
         }]
       }

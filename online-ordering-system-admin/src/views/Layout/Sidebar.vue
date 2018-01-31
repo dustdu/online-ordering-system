@@ -67,6 +67,24 @@
                 path: '/order/list'
               }
             ]
+          },
+          {
+            name: '消息',
+            routers: [
+              {
+                name: '消息列表',
+                path: '/message/list'
+              }
+            ]
+          },
+          {
+            name: '用户',
+            routers: [
+              {
+                name: '用户列表',
+                path: '/users/list'
+              }
+            ]
           }
         ]
       }

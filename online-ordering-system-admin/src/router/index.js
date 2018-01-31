@@ -6,6 +6,8 @@ import Dashboard from '../views/DataAnalysis/Dashboard.vue'
 import DishesList from '../views/Dishes/DishesList.vue'
 import AddDishes from '../views/Dishes/AddDishes.vue'
 import OrderList from '../views/Order/OrderList.vue'
+import MessageList from '../views/Message/MessageList.vue'
+import UsersList from '../views/Users/UserList.vue'
 
 Vue.use(Router)
 
@@ -57,6 +59,32 @@ export default new Router({
           path: 'list',
           name: 'OrderList',
           component: OrderList
+        }
+      ]
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: Layout,
+      redirect: '/message/list',
+      children: [
+        {
+          path: 'list',
+          name: 'MessageList',
+          component: MessageList
+        }
+      ]
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: Layout,
+      redirect: '/users/list',
+      children: [
+        {
+          path: 'list',
+          name: 'UsersList',
+          component: UsersList
         }
       ]
     }

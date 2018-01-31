@@ -63,6 +63,9 @@ a:hover {
   text-decoration: none;
 }
 
+.clearfix {
+  @include clearfix;
+}
 //vue router transition css
 .fade-enter-active,
 .fade-leave-active {
