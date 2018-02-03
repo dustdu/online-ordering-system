@@ -62,6 +62,12 @@
     data() {
       return {
         tableData3: [{
+          id: 'item-200',
+          name: '宫保鸡丁',
+          price: '￥21',
+          createtime: '2018-1-12',
+          remark: ''
+        }, {
           id: 'item-100',
           name: '辣子鸡',
           price: '￥20',

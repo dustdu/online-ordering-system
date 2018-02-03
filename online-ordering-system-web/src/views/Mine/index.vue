@@ -25,7 +25,7 @@ export default {
     loginOut() {
       this.$store.dispatch('loginOut').then(
         this.$router.push({
-          name: 'Login'
+          name: 'Signin'
         })
       )
     }

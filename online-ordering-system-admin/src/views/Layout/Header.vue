@@ -10,24 +10,19 @@
             <li>
               <span>管理员</span>
             </li>
-            <li>
-              <span>
-                店铺积分
-              </span>
-            </li>
-            <li class="border">
+            <!-- <li class="border">
               <span>
                 店铺等级
               </span>
-            </li>
+            </li> -->
             <li>
               <span>
-                账号管理
+                登陆时间：2018-1-12 10:15:21
               </span>
             </li>
             <li class="border">
               <span>
-                信息
+                信息:管理员
               </span>
             </li>
           </ul>

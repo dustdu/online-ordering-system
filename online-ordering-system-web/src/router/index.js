@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '../views/Layout'
-import Login from '../views/Login'
+import Signin from '../views/Login/Signin.vue'
+import Signup from '../views/Login/Signup.vue'
 import Home from '../views/Home'
 import OrderList from '../views/OrderList'
 import Mine from '../views/Mine'
@@ -12,8 +13,13 @@ export default new Router({
   routes: [
     {
       path: '/login',
-      name: 'Login',
-      component: Login
+      name: 'Signin',
+      component: Signin
+    },
+    {
+      path: '/register',
+      name: 'Signup',
+      component: Signup
     },
     {
       path: '/',
