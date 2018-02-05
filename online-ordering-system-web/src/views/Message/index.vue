@@ -1,6 +1,6 @@
 <template>
   <div>
-    header
+    消息
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    footer
+  餐品
   </div>
 </template>
 
@@ -13,6 +13,9 @@
       return {
 
       }
+    },
+    created() {
+      this.$store.commit()
     },
     methods: {
 

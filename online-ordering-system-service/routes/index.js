@@ -11,19 +11,45 @@ router.get('/', function(req, res, next) {
 // 用户注册
 router.post('/register', function(req, res, next) {
   mysql.getConnection((err,connection)=>{
-    var uid = new Date().getTime();
-    connection.query(userSql.addUser, [uid,req.body.userName,req.body.password], (err,data)=>{
+    connection.query(userSql.verifUserName, req.body.userName, (err,data)=>{
       if (err) {
         let result = {
-          "message": "添加用户失败"
+          "status": "0",
+          "message": "验证用户错误"
         }
         res.json(result);
       }else{
-        let result = {
-          status: "200",
-          data: data
+        if (data.length === 0) {
+          connection.query(userSql.addUser, [req.body.userName,req.body.password], (err,data)=>{
+            if (err) {
+              let result = {
+                "message": "注册失败"
+              }
+              res.json(result);
+            }else{
+              connection.query(userSql.getUserByUserName, req.body.userName, (err,data)=>{
+                if (err) {
+                  let result = {
+                    "message": "获取用户信息失败"
+                  }
+                  res.json(result);
+                }else{
+                  let result = {
+                    status: "200",
+                    data: data
+                  }
+                  res.json(result);
+                }
+              })
+            }
+          })
+        }else{
+          let result = {
+            "status": "200",
+            user: 1
+          }
+          res.json(result);
         }
-        res.json(result);
       }
       connection.release()
     })

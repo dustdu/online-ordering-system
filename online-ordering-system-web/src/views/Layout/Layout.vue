@@ -5,8 +5,8 @@
   >
     <x-header
       slot="header"
-      style="width:100%;position:absolute;left:0;top:0;z-index:100;"
-      :left-options="headOptions"
+      style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#06a355;"
+      :left-options="{showBack: true}"
     >
       <div class="title">
         {{title}}
@@ -19,7 +19,7 @@
     >
       <tabbar-item
         v-for="item in tabbarList"
-        :key="item.icon"
+        :key="item.link"
         :link="item.link"
         @on-item-click="itemClick"
       >
@@ -37,6 +37,7 @@
 
 <script>
   import { ViewBox, XHeader, Tabbar, TabbarItem, Search } from 'vux'
+  // import { mapGetters } from 'Vuex'
   export default {
     components: {
       ViewBox,
@@ -48,9 +49,6 @@
     data() {
       return {
         title: '欢迎订餐！',
-        headOptions: {
-          showBack: false
-        },
         tabbarList: [
           {
             title: '首页',
@@ -58,9 +56,14 @@
             link: '/home'
           },
           {
+            title: '点餐',
+            icon: 'fa-list-ul',
+            link: '/dishes'
+          },
+          {
             title: '订单',
             icon: 'fa-list-ul',
-            link: '/OrderList'
+            link: '/orderList'
           },
           {
             title: '我的',
@@ -69,6 +72,11 @@
           }
         ]
       }
+    },
+    computed: {
+      // ...mapGetters([
+      //   'userInfo'
+      // ])
     },
     methods: {
       itemClick() {

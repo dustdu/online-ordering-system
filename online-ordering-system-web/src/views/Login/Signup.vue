@@ -77,8 +77,7 @@ export default {
       } else {
         this.$store.dispatch('register', {
           userName: this.userName.trim(),
-          password: this.password.trim(),
-          againPassword: this.againPassword.trim()
+          password: this.password.trim()
         }).then(r => {
           this.$router.push({
             name: 'Home'
