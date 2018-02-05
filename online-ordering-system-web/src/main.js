@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   if (getToken()) {
-    if (to.path === '/login' || '/register') {
+    if (to.path === '/login' || to.path === '/register') {
       next({ path: '/' })
     } else {
       if (store.getters.userInfo.length === 0) {
@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    if (to.path === '/login' || '/register') {
+    if (to.path === '/login' || to.path === '/register') {
       next()
     } else {
       next({ path: '/login' })
