@@ -23,7 +23,11 @@
               <span class="margin-mess">下单时间： {{item.createDate}}</span>
               <span class="margin-mess">订单状态： <el-tag>已发货</el-tag></span>
             </div>
-            <el-button type="primary" class="list-play">查看信息</el-button>
+            <el-button 
+              type="primary" 
+              class="list-play"
+              @click="orderDetail" 
+            >查看信息</el-button>
           </div>
           <div class="list-remark">备注：{{item.listRemark}}</div>
         </div>
@@ -179,6 +183,14 @@
       }
     },
     methods: {
+      orderDetail() {
+        this.$router.push({
+          name: 'OrderDetail',
+          params: {
+            orderId: '123'
+          }
+        })
+      }
     }
   }
 </script>

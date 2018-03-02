@@ -9,8 +9,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from './util/cookies'
+import VCharts from 'v-charts'
 
 Vue.use(ElementUI, { size: 'small' })
+Vue.use(VCharts)
 
 Vue.config.productionTip = false
 

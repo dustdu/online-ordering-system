@@ -1,12 +1,12 @@
 import axios from 'axios'
-import Vue from 'vue'
+import { Notification } from 'element-ui'
 
-export function request(params, callback) {
+export function request(url, data, callback) {
   axios({
     method: 'post',
     baseURL: 'http://localhost:3000/',
-    url: params.url,
-    data: params.data,
+    url,
+    data,
     responseType: 'json',
     headers: {
       'Content-Type': 'application/json'
@@ -16,7 +16,11 @@ export function request(params, callback) {
       callback(r.data)
     })
     .catch(err => {
-      Vue.$vux.toast.text(err)
+      Notification({
+        title: '成功',
+        message: err,
+        type: 'warning'
+      })
     })
 }
 

@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="list-wrap">
       <el-table
-        :data="tableData3"
+        :data="dishesList"
         border
         style="width: 100%"
       >
@@ -27,13 +27,20 @@
           width="120">
         </el-table-column>
         <el-table-column
-          prop="createtime"
-          label="添加时间"
+          label="餐品图"
           width="120">
+          <template slot-scope="scope">
+            <img class="img" :src="scope.row.imgThumb" alt="">
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="created_at"
+          label="添加时间"
+          width="140">
         </el-table-column>
         <el-table-column
           label="操作"
-          width="180">
+          width="150">
           <template slot-scope="scope">
             <el-button
               type="primary">
@@ -55,70 +62,39 @@
 </template>
 
 <script>
-  export default {
-    components: {
+import { request } from '../../util/request'
+export default {
+  components: {
 
-    },
-    data() {
-      return {
-        tableData3: [{
-          id: 'item-200',
-          name: '宫保鸡丁',
-          price: '￥21',
-          createtime: '2018-1-12',
-          remark: ''
-        }, {
-          id: 'item-100',
-          name: '辣子鸡',
-          price: '￥20',
-          createtime: '2017-12-12',
-          remark: ''
-        }, {
-          id: 'item-101',
-          name: '蚂蚁上树',
-          price: '￥20',
-          createtime: '2017-12-12',
-          remark: ''
-        }, {
-          id: 'item-102',
-          name: '烤串',
-          price: '￥20',
-          createtime: '2017-12-12',
-          remark: ''
-        }, {
-          id: 'item-103',
-          name: '汉堡',
-          price: '￥20',
-          createtime: '2017-12-12',
-          remark: ''
-        }, {
-          id: 'item-104',
-          name: '黄焖鸡',
-          price: '￥20',
-          createtime: '2017-12-12',
-          remark: ''
-        }, {
-          id: 'item-105',
-          name: '红烧茄子',
-          price: '￥20',
-          createtime: '2017-12-12',
-          remark: ''
-        }, {
-          id: 'item-106',
-          name: '小炒肉',
-          price: '￥20',
-          createtime: '2017-12-12',
-          remark: ''
-        }]
-      }
-    },
-    methods: {
-  
+  },
+  data() {
+    return {
+      dishesList: []
+    }
+  },
+  created() {
+    this.getDishes()
+  },
+  methods: {
+    getDishes() {
+      request(
+        'getDishes',
+        {
+          activeFlg: -1
+        },
+        r => {
+          console.log(r)
+          this.dishesList = r.data
+        }
+      )
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
-
+.img {
+  width: 100%;
+}
  
 </style>

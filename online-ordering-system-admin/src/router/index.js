@@ -6,6 +6,7 @@ import Dashboard from '../views/DataAnalysis/Dashboard.vue'
 import DishesList from '../views/Dishes/DishesList.vue'
 import AddDishes from '../views/Dishes/AddDishes.vue'
 import OrderList from '../views/Order/OrderList.vue'
+import OrderDetail from '../views/order/OrderDetail.vue'
 import MessageList from '../views/Message/MessageList.vue'
 import UsersList from '../views/Users/UserList.vue'
 
@@ -59,6 +60,11 @@ export default new Router({
           path: 'list',
           name: 'OrderList',
           component: OrderList
+        },
+        {
+          path: 'detail/:orderId',
+          name: 'OrderDetail',
+          component: OrderDetail
         }
       ]
     },

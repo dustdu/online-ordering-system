@@ -3,6 +3,8 @@ var router = express.Router();
 
 var mysql = require('../mysql')
 var userSql = require('../api/users')
+var dishesSql = require('../api/dishes')
+var orderSql = require('../api/order')
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -137,4 +139,103 @@ router.post('/getUsers', function(req, res, next) {
     })
   })
 });
+
+// 获取餐品列表
+router.post('/getDishes', function(req, res, next) {
+  mysql.getConnection((err,connection)=>{
+    if (req.body.activeFlg === -1) {
+      connection.query(dishesSql.getDishes,(err,data)=>{
+        if (err) {
+          var result = {
+              "status": "500",
+              "activeFlg": req.body.activeFlg,
+              "message": "服务器错误"
+            }
+          res.json(result);
+        }else{
+          var result = {
+              "status": "200",
+              "activeFlg": req.body.activeFlg,
+              "message": "success",
+              data:data
+            }
+          res.json(result);
+        }
+        connection.release()
+      })
+    }else{
+      connection.query(dishesSql.getDishesByActiveFlag, req.body.activeFlg,(err,data)=>{
+        if (err) {
+          var result = {
+              "status": "500",
+              "activeFlg": req.body.activeFlg,
+              "message": "服务器错误"
+            }
+          res.json(result);
+        }else{
+          var result = {
+              "status": "200",
+              "activeFlg": req.body.activeFlg,
+              "message": "success",
+              data:data
+            }
+          res.json(result);
+        }
+        connection.release()
+      })
+    }
+    
+  })
+});
+
+// 获取订单列表
+router.post('/getOrderList', function(req, res, next) {
+  mysql.getConnection((err,connection)=>{
+    if (req.body.activeFlg === -1) {
+      connection.query(orderSql.getOrderList,(err,data)=>{
+        if (err) {
+          var result = {
+              "status": "500",
+              "activeFlg": req.body.activeFlg,
+              "message": "服务器错误"
+            } 
+          res.json(result);
+        }else{
+          var result = {
+              "status": "200",
+              "activeFlg": req.body.activeFlg,
+              "message": "success",
+              data:data
+            }
+          res.json(result);
+        }
+        connection.release()
+      })
+    }else{
+      connection.query(orderSql.getOrderByActiveFlag, req.body.activeFlg,(err,data)=>{
+        if (err) {
+          var result = {
+              "status": "500",
+              "activeFlg": req.body.activeFlg,
+              "message": "服务器错误"
+            }
+          res.json(result);
+        }else{
+          var result = {
+              "status": "200",
+              "activeFlg": req.body.activeFlg,
+              "message": "success",
+              data:data
+            }
+          res.json(result);
+        }
+        connection.release()
+      })
+    }
+    
+  })
+});
+
+// 获取订单详细信息
+
 module.exports = router;
