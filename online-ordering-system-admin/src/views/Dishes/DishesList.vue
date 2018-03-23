@@ -81,12 +81,11 @@ export default {
         'getDishes',
         {
           activeFlg: -1
-        },
-        r => {
-          console.log(r)
-          this.dishesList = r.data
         }
-      )
+      ).then(r => {
+        console.log(r)
+        this.dishesList = r.data
+      })
     }
   }
 }

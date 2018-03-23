@@ -66,133 +66,147 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        selectType: '全部',
-        listType: [
+import { request } from '../../util/request'
+export default {
+  data() {
+    return {
+      selectType: '全部',
+      listType: [
+        {
+          label: '全部'
+        },
+        {
+          label: '待付款'
+        },
+        {
+          label: '待发货'
+        },
+        {
+          label: '已完成'
+        },
+        {
+          label: '已取消'
+        }
+      ],
+      listData: [{
+        listNub: 'D454845454866',
+        createDate: '2018-1-12',
+        listRemark: '重辣',
+        dishesList: [
           {
-            label: '全部'
-          },
+            id: 'item-200',
+            name: '宫保鸡丁',
+            price: '￥21',
+            createtime: '2017-12-12',
+            remark: ''
+          }, {
+            id: 'item-102',
+            name: '烤串',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
+          }
+        ]
+      }, {
+        listNub: 'D454845454845',
+        createDate: '2018-12-12',
+        listRemark: '不要辣',
+        dishesList: [
           {
-            label: '待付款'
-          },
+            id: 'item-101',
+            name: '蚂蚁上树',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
+          }, {
+            id: 'item-102',
+            name: '烤串',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
+          }
+        ]
+      }, {
+        listNub: 'D454845454841',
+        dishesList: [
           {
-            label: '待发货'
-          },
-          {
-            label: '已完成'
-          },
-          {
-            label: '已取消'
+            id: 'item-101',
+            name: '蚂蚁上树',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
+          }, {
+            id: 'item-102',
+            name: '烤串',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
           }
         ],
-        listData: [{
-          listNub: 'D454845454866',
-          createDate: '2018-1-12',
-          listRemark: '重辣',
-          dishesList: [
-            {
-              id: 'item-200',
-              name: '宫保鸡丁',
-              price: '￥21',
-              createtime: '2017-12-12',
-              remark: ''
-            }, {
-              id: 'item-102',
-              name: '烤串',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }
-          ]
-        }, {
-          listNub: 'D454845454845',
-          createDate: '2018-12-12',
-          listRemark: '不要辣',
-          dishesList: [
-            {
-              id: 'item-101',
-              name: '蚂蚁上树',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }, {
-              id: 'item-102',
-              name: '烤串',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }
-          ]
-        }, {
-          listNub: 'D454845454841',
-          dishesList: [
-            {
-              id: 'item-101',
-              name: '蚂蚁上树',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }, {
-              id: 'item-102',
-              name: '烤串',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }
-          ],
-          createDate: '2018-12-12'
-        }, {
-          listNub: 'D454845454848',
-          dishesList: [
-            {
-              id: 'item-101',
-              name: '蚂蚁上树',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }, {
-              id: 'item-102',
-              name: '烤串',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }
-          ],
-          createDate: '2018-12-12'
-        }, {
-          listNub: 'D454845454847',
-          dishesList: [
-            {
-              id: 'item-101',
-              name: '蚂蚁上树',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }, {
-              id: 'item-102',
-              name: '烤串',
-              price: '￥20',
-              createtime: '2017-12-12',
-              remark: ''
-            }
-          ],
-          createDate: '2018-12-12'
-        }]
-      }
-    },
-    methods: {
-      orderDetail() {
-        this.$router.push({
-          name: 'OrderDetail',
-          params: {
-            orderId: '123'
+        createDate: '2018-12-12'
+      }, {
+        listNub: 'D454845454848',
+        dishesList: [
+          {
+            id: 'item-101',
+            name: '蚂蚁上树',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
+          }, {
+            id: 'item-102',
+            name: '烤串',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
           }
-        })
+        ],
+        createDate: '2018-12-12'
+      }, {
+        listNub: 'D454845454847',
+        dishesList: [
+          {
+            id: 'item-101',
+            name: '蚂蚁上树',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
+          }, {
+            id: 'item-102',
+            name: '烤串',
+            price: '￥20',
+            createtime: '2017-12-12',
+            remark: ''
+          }
+        ],
+        createDate: '2018-12-12'
+      }]
+    }
+  },
+  created() {
+    console.log(1)
+
+    request(
+      'adminLogin',
+      {
+        adminName: 11,
+        password: 11
       }
+    ).then(r => {
+      console.log(r)
+    })
+  },
+  methods: {
+    orderDetail() {
+      this.$router.push({
+        name: 'OrderDetail',
+        params: {
+          orderId: '123'
+        }
+      })
     }
   }
+}
 </script>
 
 <style lang="scss">

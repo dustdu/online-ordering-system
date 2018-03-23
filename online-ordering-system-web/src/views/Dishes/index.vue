@@ -15,7 +15,7 @@
       }
     },
     created() {
-      this.$store.commit()
+      console.log(22)
     },
     methods: {
 

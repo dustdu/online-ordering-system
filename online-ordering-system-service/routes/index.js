@@ -5,6 +5,7 @@ var mysql = require('../mysql')
 var userSql = require('../api/users')
 var dishesSql = require('../api/dishes')
 var orderSql = require('../api/order')
+var adminSql = require('../api/admin')
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -236,6 +237,63 @@ router.post('/getOrderList', function(req, res, next) {
   })
 });
 
-// 获取订单详细信息
+// TODO:获取订单详细信息
+// TODO:后台登录
+router.post('/adminLogin', function(req, res, next) {
+  mysql.getConnection((err,connection)=>{
+    connection.query(adminSql.verifAdminName, req.body.adminName, (err,data)=>{
+      if (err) {
+        let result = {
+          "status": "0",
+          "message": "验证用户错误"
+        }
+        res.json(result);
+      }else{
+        //用户不存在
+        if (data.length === 0) {
+          let result = {
+            "status": "200",
+            admin: 0
+          }
+          res.json(result);
+        }else{
+          connection.query(adminSql.verifAdminPassword, [req.body.adminName, req.body.password], (err,data)=>{
+            if (err) {
+              let result = {
+                "status": "1",
+                "message": "验证用户密码发生错误"
+              }
+              res.json(result);
+            }else{
+              if (data.length === 0) {
+                let result = {
+                  "status": "200",
+                  password: 0
+                }
+                res.json(result);
+              }else{
+                connection.query(adminSql.getAdminByAdminName, req.body.adminName, (err,data)=>{
+                  if (err) {
+                    let result = {
+                      "message": "获取用户信息失败"
+                    }
+                    res.json(result);
+                  }else{
+                    let result = {
+                      status: "200",
+                      data: data
+                    }
+                    res.json(result);
+                  }
+                })
+              }
+            }
+          })
+        }
+      }
+      connection.release()
+    })
+  })
+});
 
 module.exports = router;
