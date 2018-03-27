@@ -80,7 +80,7 @@
     },
     methods: {
       itemClick() {
-        console.log()
+        this.$socket.emit('webApp', '111')
       }
     }
   }

@@ -20,3 +20,6 @@ online-ordering-system-service/yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+online-ordering-system-web/yarn.lock
+online-ordering-system-admin/yarn.lock
+online-ordering-system-service/yarn.lock

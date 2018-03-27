@@ -189,8 +189,8 @@ export default {
     request(
       'adminLogin',
       {
-        adminName: 11,
-        password: 11
+        adminName: 'admin',
+        password: 123456
       }
     ).then(r => {
       console.log(r)
@@ -198,12 +198,14 @@ export default {
   },
   methods: {
     orderDetail() {
-      this.$router.push({
-        name: 'OrderDetail',
-        params: {
-          orderId: '123'
-        }
-      })
+      this.$socket.emit('webAdmin', '11', '8787')
+
+      // this.$router.push({
+      //   name: 'OrderDetail',
+      //   params: {
+      //     orderId: '123'
+      //   }
+      // })
     }
   }
 }

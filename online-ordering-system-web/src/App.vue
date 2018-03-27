@@ -6,7 +6,18 @@
 
 <script>
   export default {
-    name: 'app'
+    name: 'app',
+    sockets: {
+      connect() {
+        console.log('socket connected')
+      },
+      sendApp(val) {
+        console.log(val)
+      },
+      openMsg(val) {
+        this.$vux.toast.text(val, 'bottom')
+      }
+    }
   }
 </script>
 

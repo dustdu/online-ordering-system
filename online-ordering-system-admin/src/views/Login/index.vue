@@ -8,20 +8,20 @@
       label-width="0px"
       class="card-box login-form">
       <h3 class="title">系统登录</h3>
-      <el-form-item prop="username">
-        <span class="svg-container">
+      <el-form-item prop="adminName">
+        <!-- <span class="svg-container">
           <icon-svg icon-class="id"></icon-svg>
-        </span>
-        <el-input name="username" type="text" 
-          v-model="loginForm.username" 
+        </span> -->
+        <el-input name="adminName" type="text" 
+          v-model="loginForm.adminName" 
           autoComplete="on"
           placeholder="用户名">
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <span class="svg-container">
+        <!-- <span class="svg-container">
           <icon-svg icon-class="pswd"></icon-svg>
-        </span>
+        </span> -->
         <el-input name="password" type="password" 
           @keyup.enter.native="handleLogin" 
           v-model="loginForm.password"
@@ -52,11 +52,11 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
+        adminName: '',
         password: ''
       },
       loginRules: {
-        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        adminName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         password: [{ required: true, trigger: 'blur', validator: validatePass }]
       },
       loading: false
@@ -67,11 +67,14 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('Login', this.loginForm)
+          this.$store.dispatch('login', this.loginForm)
             .then(r => {
+              // console.log(r)
+              this.$socket.emit('login', r.data[0].adminId)
               this.loading = false
               this.$router.push({ path: '/' })
-            }).catch(() => {
+            }).catch(r => {
+              // console.log(r)
               this.loading = false
             })
         } else {

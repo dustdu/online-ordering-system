@@ -8,6 +8,9 @@ import FastClick from 'fastclick'
 import { getToken, getUserInfo } from './utils/cookies'
 import { ToastPlugin } from 'vux'
 import './assets/font-awesome-4.7.0/css/font-awesome.min.css'
+import VueSocketio from 'vue-socket.io'
+
+Vue.use(VueSocketio, 'http://localhost:3000')
 
 FastClick.attach(document.body)
 Vue.use(ToastPlugin)

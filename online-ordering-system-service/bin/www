@@ -21,6 +21,34 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+// socket
+var io = require('socket.io')(server);
+
+let sockets = []
+
+io.on('connection', function(socket){
+  socket.on('login',id=>{
+    // 一个账号只创建一个房间
+    socket.join(id)
+
+    let room = {}
+    room.id = id
+    room.socket = socket.id
+    sockets.push(room)
+    // TODO:向后台发布用户登录消息-后期转为发布订单消息
+    socket.emit('rooms', sockets)
+  })
+  socket.on('webApp', msg => {
+    socket.emit('sendApp', msg)
+  })
+  socket.on('webAdmin', (id,msg) => {
+    socket.emit('sendAdmin', `${socket.id}---${id}---${msg}`)
+    // 向一个房间发布消息
+    socket.to(16).emit('openMsg', `${socket.id}---${id}---${msg}`)
+  })
+});
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */

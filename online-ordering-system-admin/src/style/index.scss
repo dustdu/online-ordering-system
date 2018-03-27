@@ -108,3 +108,31 @@ a:hover {
   border-radius: 4px;
   box-shadow: 0 0 8px 0 rgba(0,0,0,.05);
 }
+
+.shipping-card {
+  .card-box {
+    &.block {
+      .el-button {
+        width: 194px;
+      }
+    }
+    .el-button {
+      width: 89px;
+    }
+  }
+}
+
+// svg样式，暂时没用
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+// 登录输入框
+.el-input--small .el-input__inner {
+  height: 100%;
+  line-height: 80%;
+}

@@ -10,9 +10,13 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from './util/cookies'
 import VCharts from 'v-charts'
+import IconSvg from '@/components/Icon-svg/index'
+import VueSocketio from 'vue-socket.io'
 
+Vue.use(VueSocketio, 'http://localhost:3000')
 Vue.use(ElementUI, { size: 'small' })
 Vue.use(VCharts)
+Vue.component('icon-svg', IconSvg)
 
 Vue.config.productionTip = false
 

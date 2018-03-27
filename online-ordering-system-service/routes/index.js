@@ -8,6 +8,7 @@ var orderSql = require('../api/order')
 var adminSql = require('../api/admin')
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  res.setHeader("Content-Type", "text/html");
   res.render('index', { title: 'Express' });
 });
 
@@ -238,7 +239,7 @@ router.post('/getOrderList', function(req, res, next) {
 });
 
 // TODO:获取订单详细信息
-// TODO:后台登录
+
 router.post('/adminLogin', function(req, res, next) {
   mysql.getConnection((err,connection)=>{
     connection.query(adminSql.verifAdminName, req.body.adminName, (err,data)=>{
@@ -281,6 +282,7 @@ router.post('/adminLogin', function(req, res, next) {
                   }else{
                     let result = {
                       status: "200",
+                      token: 'admin',
                       data: data
                     }
                     res.json(result);

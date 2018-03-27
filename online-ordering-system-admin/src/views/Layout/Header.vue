@@ -26,7 +26,10 @@
               </span>
             </li>
           </ul>
-          <el-button class="btn-logout" >
+          <el-button 
+            class="btn-logout"
+            @click="loginOut"
+          >
             退出登录
           </el-button>
         </div>
@@ -46,11 +49,11 @@
       // ...mapGetters(['permission_routers', 'nickName'])
     },
     methods: {
-      // logout() {
-      //   this.$store.dispatch('LogOut').then(() => {
-      //     location.reload() // 为了重新实例化vue-router对象 避免bug
-      //   })
-      // }
+      loginOut() {
+        this.$store.dispatch('loginOut').then(() => {
+          location.reload() // 为了重新实例化vue-router对象 避免bug
+        })
+      }
     }
   }
 </script>
