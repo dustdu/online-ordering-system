@@ -1,13 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Layout from '../views/Layout/Layout.vue'
-import Signin from '../views/Login/Signin.vue'
-import Signup from '../views/Login/Signup.vue'
-import Home from '../views/Home'
-import OrderList from '../views/OrderList'
-import Message from '../views/Message'
-import Dishes from '../views/Dishes'
-import Mine from '../views/Mine'
+
+const _import = require('./_import_' + process.env.NODE_ENV)
 
 Vue.use(Router)
 
@@ -16,12 +12,12 @@ export default new Router({
     {
       path: '/login',
       name: 'Signin',
-      component: Signin
+      component: _import('Login/Signin')
     },
     {
       path: '/register',
       name: 'Signup',
-      component: Signup
+      component: _import('Login/Signup')
     },
     {
       path: '/',
@@ -32,27 +28,27 @@ export default new Router({
         {
           path: 'home',
           name: 'Home',
-          component: Home
+          component: _import('Home')
         },
         {
           path: 'orderList',
           name: 'OrderList',
-          component: OrderList
+          component: _import('OrderList')
         },
         {
           path: 'message',
           name: 'Message',
-          component: Message
+          component: _import('Message')
         },
         {
           path: 'mine',
           name: 'Mine',
-          component: Mine
+          component: _import('Mine')
         },
         {
           path: 'dishes',
           name: 'Dishes',
-          component: Dishes
+          component: _import('Dishes')
         }
 
       ]
