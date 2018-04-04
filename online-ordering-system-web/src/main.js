@@ -6,18 +6,73 @@ import router from './router'
 import store from './store'
 import FastClick from 'fastclick'
 import { getToken, getUserInfo } from './utils/cookies'
-import { ToastPlugin } from 'vux'
 import './assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import VueSocketio from 'vue-socket.io'
+import { DatetimePlugin, CloseDialogsPlugin, BusPlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
 
 Vue.use(VueSocketio, 'http://localhost:3000')
 
 FastClick.attach(document.body)
 Vue.use(ToastPlugin)
 
+// plugins
+Vue.use(DevicePlugin)
+Vue.use(ToastPlugin)
+Vue.use(AlertPlugin)
+Vue.use(ConfirmPlugin)
+Vue.use(LoadingPlugin)
+Vue.use(WechatPlugin)
+Vue.use(AjaxPlugin)
+Vue.use(BusPlugin)
+Vue.use(DatetimePlugin)
+Vue.use(CloseDialogsPlugin, router)
+
 Vue.config.productionTip = false
 
+const session = window.sessionStorage
+session.clear()
+session.setItem('/', 0)
+let stampCount = session.getItem('stampCount') * 1 || 0
+
+let isPush = false
+let endTime = Date.now()
+const methods = ['push', 'go', 'replace', 'forward', 'back']
+
+document.addEventListener('touchend', () => {
+  endTime = Date.now()
+})
+methods.forEach(key => {
+  const method = router[key].bind(router)
+  router[key] = function(...args) {
+    isPush = true
+    method(...args)
+  }
+})
+
 router.beforeEach((to, from, next) => {
+  const toStamp = session.getItem(to.path)
+  const fromStamp = session.getItem(from.path)
+  console.log(toStamp)
+  console.log(fromStamp)
+  if (toStamp) {
+    if (!fromStamp || parseInt(toStamp, 10) > parseInt(fromStamp, 10) || (toStamp === '0' && fromStamp === '0')) {
+      console.log(fromStamp)
+      store.commit('updataAnimation', { type: 'forward' })
+    } else {
+      // 判断是否是ios左滑返回
+      if (!isPush && (Date.now() - endTime) < 377) {
+        store.commit('updataAnimation', { type: '' })
+      } else {
+        store.commit('updataAnimation', { type: 'reverse' })
+      }
+    }
+  } else {
+    ++stampCount
+    session.setItem('stampCount', stampCount)
+    to.path !== '/' && session.setItem(to.path, stampCount)
+    store.commit('updataAnimation', { type: 'forward' })
+  }
+
   if (getToken()) {
     if (to.path === '/login' || to.path === '/register') {
       next({ path: '/' })
@@ -36,6 +91,15 @@ router.beforeEach((to, from, next) => {
     } else {
       next({ path: '/login' })
     }
+  }
+})
+
+router.afterEach(to => {
+  isPush = false
+  // store.commit('updateLoadingStatus', { isLoading: false })
+  if (process.env.NODE_ENV === 'production') {
+    ga && ga('set', 'page', to.fullPath)
+    ga && ga('send', 'pageview')
   }
 })
 

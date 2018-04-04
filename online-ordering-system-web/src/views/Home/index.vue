@@ -7,30 +7,25 @@
       @on-index-change="demo07_onIndexChange"
     >
     </swiper>
-    <flexbox :gutter="0" wrap="wrap">
-      <flexbox-item :span="3/7">
-        <div class="entrance">入口
-        </div>
-      </flexbox-item>
-      <flexbox-item :span="3/7">
-        <div class="entrance">入口
-        </div>
-      </flexbox-item>
-      <flexbox-item :span="3/7">
-        <div class="entrance">入口
-        </div>
-      </flexbox-item>
-      <flexbox-item :span="3/7">
-        <div class="entrance">入口
-        </div>
-      </flexbox-item>
-    </flexbox>
+    <divider v-text="newDishes"></divider>
+    <grid
+      :col="1"
+      slot="content"
+    >
+      <grid-item
+        label="Grid" 
+        v-for="i in 3"
+        :key="i"
+      >
+        
+      </grid-item>
+    </grid>
     <div>{{userInfo}}</div>
   </div>
 </template>
 
 <script>
-  import { Swiper, Flexbox, FlexboxItem } from 'vux'
+  import { Swiper, Divider, Grid, GridItem } from 'vux'
   import { mapGetters } from 'vuex'
   const baseList = [{
     url: 'http://m.baidu.com',
@@ -48,11 +43,13 @@
   export default {
     components: {
       Swiper,
-      Flexbox,
-      FlexboxItem
+      Divider,
+      Grid,
+      GridItem
     },
     data() {
       return {
+        newDishes: '',
         demo07_index: 0,
         demo07_list: baseList
       }
@@ -65,7 +62,7 @@
       //   .catch(error => {
       //     console.log(error)
       //   })
-      console.log(new Date().getTime())
+      // console.log(new Date().getTime())
     },
     computed: {
       ...mapGetters([

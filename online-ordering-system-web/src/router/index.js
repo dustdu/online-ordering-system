@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Layout from '../views/Layout/Layout.vue'
-
-const _import = require('./_import_' + process.env.NODE_ENV)
+import Layout from '../views/Layout'
 
 Vue.use(Router)
+
+const _import = require('./_import_' + process.env.NODE_ENV)
 
 export default new Router({
   routes: [

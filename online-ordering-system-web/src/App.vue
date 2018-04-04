@@ -1,24 +1,39 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition
+      :name="viewTransition"
+      @after-enter="$vux.bus && $vux.bus.$emit('vux:after-view-enter')"
+    >
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'app',
-    sockets: {
-      connect() {
-        console.log('socket connected')
-      },
-      sendApp(val) {
-        console.log(val)
-      },
-      openMsg(val) {
-        this.$vux.toast.text(val, 'bottom')
-      }
+import { mapGetters } from 'vuex'
+export default {
+  name: 'app',
+  sockets: {
+    connect() {
+      console.log('socket connected')
+    },
+    sendApp(val) {
+      // console.log(val)
+    },
+    openMsg(val) {
+      this.$vux.toast.text(val, 'bottom')
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'animationType'
+    ]),
+    viewTransition() {
+      if (!this.animationType) return ''
+      return 'vux-pop-' + (this.animationType === 'forward' ? 'in' : 'out')
     }
   }
+}
 </script>
 
 <style lang="less">

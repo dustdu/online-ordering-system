@@ -13,7 +13,12 @@
       </div>
     </x-header>
     <!-- <search slot="header"></search> -->
-    <router-view></router-view>
+    <transition
+      :name="viewTransition"
+      @after-enter="$vux.bus && $vux.bus.$emit('vux:after-view-enter')"
+    >
+      <router-view></router-view>
+    </transition>
     <tabbar
       slot="bottom"
     >
@@ -37,7 +42,7 @@
 
 <script>
   import { ViewBox, XHeader, Tabbar, TabbarItem, Search } from 'vux'
-  // import { mapGetters } from 'Vuex'
+  import { mapGetters } from 'vuex'
   export default {
     components: {
       ViewBox,
@@ -74,9 +79,13 @@
       }
     },
     computed: {
-      // ...mapGetters([
-      //   'userInfo'
-      // ])
+      ...mapGetters([
+        'animationType'
+      ]),
+      viewTransition() {
+        if (!this.animationType) return ''
+        return 'vux-pop-' + (this.animationType === 'forward' ? 'in' : 'out')
+      }
     },
     methods: {
       itemClick() {

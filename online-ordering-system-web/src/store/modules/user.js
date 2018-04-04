@@ -31,6 +31,7 @@ const user = {
           if (r.data.data.length === 1) {
             Vue.$vux.toast.text('登录成功！', 'bottom')
             commit('userInfo', r.data.data)
+            // 暂时前端模拟
             setToken(new Date().getTime())
             setUserInfo(r.data.data)
             resolve(r)
