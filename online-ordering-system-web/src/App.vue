@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div v-transfer-dom>
+      <loading v-model="isLoading"></loading>
+    </div>
     <transition
       :name="viewTransition"
       @after-enter="$vux.bus && $vux.bus.$emit('vux:after-view-enter')"
@@ -10,9 +13,13 @@
 </template>
 
 <script>
+import { Loading } from 'vux'
 import { mapGetters } from 'vuex'
 export default {
   name: 'app',
+  components: {
+    Loading
+  },
   sockets: {
     connect() {
       console.log('socket connected')
@@ -26,7 +33,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'animationType'
+      'animationType',
+      'isLoading'
     ]),
     viewTransition() {
       if (!this.animationType) return ''

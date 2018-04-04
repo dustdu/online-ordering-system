@@ -46,7 +46,7 @@ export default {
         userName: this.userName.trim(),
         password: this.password.trim()
       }).then(r => {
-        this.$socket.emit('login', r.data.data[0].uid)
+        this.$socket.emit('login', r.data[0].uid)
         this.$router.push({
           name: 'Home'
         })

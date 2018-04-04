@@ -1,26 +1,39 @@
 <template>
   <div>
-  餐品
+    <div >
+
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    components: {
+import { request } from '../../utils/request'
+export default {
+  components: {
 
-    },
-    data() {
-      return {
-
-      }
-    },
-    created() {
-      console.log(22)
-    },
-    methods: {
+  },
+  data() {
+    return {
 
     }
+  },
+  created() {
+    console.log(22)
+    this.getDishes()
+  },
+  methods: {
+    getDishes() {
+      request(
+        'getDishes',
+        {
+          activeFlg: -1
+        }
+      ).then(r => {
+        console.log(r)
+      })
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>

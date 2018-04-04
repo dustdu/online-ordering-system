@@ -8,12 +8,11 @@ import FastClick from 'fastclick'
 import { getToken, getUserInfo } from './utils/cookies'
 import './assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import VueSocketio from 'vue-socket.io'
-import { DatetimePlugin, CloseDialogsPlugin, BusPlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
+import { DatetimePlugin, CloseDialogsPlugin, BusPlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin, TransferDom } from 'vux'
 
 Vue.use(VueSocketio, 'http://localhost:3000')
 
 FastClick.attach(document.body)
-Vue.use(ToastPlugin)
 
 // plugins
 Vue.use(DevicePlugin)
@@ -26,6 +25,7 @@ Vue.use(AjaxPlugin)
 Vue.use(BusPlugin)
 Vue.use(DatetimePlugin)
 Vue.use(CloseDialogsPlugin, router)
+Vue.directive('transfer-dom', TransferDom)
 
 Vue.config.productionTip = false
 
@@ -50,13 +50,11 @@ methods.forEach(key => {
 })
 
 router.beforeEach((to, from, next) => {
+  store.commit('updataLoadingStatus', { status: true })
   const toStamp = session.getItem(to.path)
   const fromStamp = session.getItem(from.path)
-  console.log(toStamp)
-  console.log(fromStamp)
   if (toStamp) {
     if (!fromStamp || parseInt(toStamp, 10) > parseInt(fromStamp, 10) || (toStamp === '0' && fromStamp === '0')) {
-      console.log(fromStamp)
       store.commit('updataAnimation', { type: 'forward' })
     } else {
       // 判断是否是ios左滑返回
@@ -96,11 +94,9 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(to => {
   isPush = false
-  // store.commit('updateLoadingStatus', { isLoading: false })
-  if (process.env.NODE_ENV === 'production') {
-    ga && ga('set', 'page', to.fullPath)
-    ga && ga('send', 'pageview')
-  }
+  setTimeout(() => {
+    store.commit('updataLoadingStatus', { status: false })
+  }, 500)
 })
 
 /* eslint-disable no-new */

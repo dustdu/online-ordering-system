@@ -20,12 +20,12 @@
         
       </grid-item>
     </grid>
-    <div>{{userInfo}}</div>
+    <div @click="grid()">{{userInfo}}</div>
   </div>
 </template>
 
 <script>
-  import { Swiper, Divider, Grid, GridItem } from 'vux'
+  import { Swiper, Divider, Grid, GridItem, Loading } from 'vux'
   import { mapGetters } from 'vuex'
   const baseList = [{
     url: 'http://m.baidu.com',
@@ -45,7 +45,8 @@
       Swiper,
       Divider,
       Grid,
-      GridItem
+      GridItem,
+      Loading
     },
     data() {
       return {
@@ -55,23 +56,27 @@
       }
     },
     created() {
-      // axios.get('http://localhost:3000/users')
-      //   .then(response => {
-      //     console.log(response.data)
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //   })
-      // console.log(new Date().getTime())
+    // axios.get('http://localhost:3000/users')
+    //   .then(response => {
+    //     console.log(response.data)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+    // console.log(new Date().getTime())
     },
     computed: {
       ...mapGetters([
-        'userInfo'
+        'userInfo',
+        'isLoading'
       ])
     },
     methods: {
       demo07_onIndexChange(index) {
         this.demo07_index = index
+      },
+      grid() {
+        console.log(this.isLoading)
       }
     }
   }
