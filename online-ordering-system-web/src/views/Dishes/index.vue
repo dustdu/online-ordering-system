@@ -1,8 +1,13 @@
 <template>
   <div>
-    <div >
-
-    </div>
+    <ul>
+      <li
+        v-for="item in dishesData"
+        :key="item.dishesId"
+      >
+        <p v-text="item.name"></p>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -14,11 +19,10 @@ export default {
   },
   data() {
     return {
-
+      dishesData: []
     }
   },
   created() {
-    console.log(22)
     this.getDishes()
   },
   methods: {
@@ -30,6 +34,7 @@ export default {
         }
       ).then(r => {
         console.log(r)
+        this.dishesData = r.data
       })
     }
   }

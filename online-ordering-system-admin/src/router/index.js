@@ -2,15 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '../views/Layout'
 import Login from '../views/Login'
-import Dashboard from '../views/DataAnalysis/Dashboard.vue'
-import DishesList from '../views/Dishes/DishesList.vue'
-import AddDishes from '../views/Dishes/AddDishes.vue'
-import OrderList from '../views/Order/OrderList.vue'
-import OrderDetail from '../views/order/OrderDetail.vue'
-import MessageList from '../views/Message/MessageList.vue'
-import UsersList from '../views/Users/UserList.vue'
 
 Vue.use(Router)
+
+const _import = require('./_import_' + process.env.NODE_ENV)
 
 export default new Router({
   routes: [
@@ -28,7 +23,7 @@ export default new Router({
         {
           path: 'dashboard',
           name: 'Dashboard',
-          component: Dashboard
+          component: _import('DataAnalysis/Dashboard')
         }
       ]
     },
@@ -41,12 +36,17 @@ export default new Router({
         {
           path: 'list',
           name: 'DishesList',
-          component: DishesList
+          component: _import('Dishes/DishesList')
         },
         {
           path: 'add',
           name: 'AddDishes',
-          component: AddDishes
+          component: _import('Dishes/AddDishes')
+        },
+        {
+          path: 'edit/:dishesId',
+          name: 'EditDishes',
+          component: _import('Dishes/AddDishes')
         }
       ]
     },
@@ -59,12 +59,12 @@ export default new Router({
         {
           path: 'list',
           name: 'OrderList',
-          component: OrderList
+          component: _import('Order/OrderList')
         },
         {
           path: 'detail/:orderId',
           name: 'OrderDetail',
-          component: OrderDetail
+          component: _import('Order/OrderDetail')
         }
       ]
     },
@@ -77,7 +77,7 @@ export default new Router({
         {
           path: 'list',
           name: 'MessageList',
-          component: MessageList
+          component: _import('Message/MessageList')
         }
       ]
     },
@@ -90,7 +90,7 @@ export default new Router({
         {
           path: 'list',
           name: 'UsersList',
-          component: UsersList
+          component: _import('Users/UserList')
         }
       ]
     }

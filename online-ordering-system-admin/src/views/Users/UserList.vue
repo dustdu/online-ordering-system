@@ -62,16 +62,20 @@ export default {
     }
   },
   created() {
-    request({
-      url: 'getUsers'
-    },
-    r => {
-      console.log(r)
-      this.userList = r.data
-    })
+    this.getUserList()
   },
   methods: {
-
+    getUserList() {
+      request(
+        'getUsers'
+      )
+        .then(
+          r => {
+            console.log(r)
+            this.userList = r.data
+          }
+        )
+    }
   }
 }
 </script>

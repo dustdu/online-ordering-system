@@ -1,29 +1,27 @@
 <template>
   <div class="app-container">
     <div class="list-wrap">
+      <div class="radio">
+        <el-radio-group v-model="radioValue" @change="radioChange">
+          <el-radio-button label="-1">所有餐品</el-radio-button>
+          <el-radio-button label="0">未上架</el-radio-button>
+          <el-radio-button label="1">已上架</el-radio-button>
+          <el-radio-button label="3">优惠餐品</el-radio-button>
+        </el-radio-group>
+      </div>
       <el-table
         :data="dishesList"
         border
         style="width: 100%"
       >
         <el-table-column
-          prop="id"
+          prop="dishesId"
           label="商品编号"
           width="80">
         </el-table-column>
         <el-table-column
           prop="name"
           label="商品名称"
-          width="120">
-        </el-table-column>
-        <!-- <el-table-column
-          prop="img"
-          label="图片"
-          width="180">
-        </el-table-column> -->
-        <el-table-column
-          prop="price"
-          label="价格"
           width="120">
         </el-table-column>
         <el-table-column
@@ -34,16 +32,38 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="price"
+          label="价格"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="discountPrice"
+          label="优惠价格"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="des"
+          label="餐品描述">
+        </el-table-column>
+        <el-table-column
+          prop="remark"
+          label="备注"
+          width="140">
+        </el-table-column>
+        <el-table-column
           prop="created_at"
           label="添加时间"
           width="140">
         </el-table-column>
         <el-table-column
           label="操作"
-          width="150">
+          width="150"
+          fixed="right">
           <template slot-scope="scope">
             <el-button
-              type="primary">
+              type="primary"
+              @click="editDishes(scope.row)"
+            >
               编辑
             </el-button>
             <el-button
@@ -51,10 +71,6 @@
               下架
             </el-button>
           </template>
-        </el-table-column>
-        <el-table-column
-          prop="remark"
-          label="备注">
         </el-table-column>
       </el-table>
     </div>
@@ -69,7 +85,8 @@ export default {
   },
   data() {
     return {
-      dishesList: []
+      dishesList: [],
+      radioValue: -1
     }
   },
   created() {
@@ -86,6 +103,22 @@ export default {
         console.log(r)
         this.dishesList = r.data
       })
+    },
+    radioChange(v) {
+      console.log(v)
+
+      // request(
+      //   'getDishes',
+      //   {
+      //     activeFlg: -1
+      //   }
+      // ).then(r => {
+      //   console.log(r)
+      //   this.dishesList = r.data
+      // })
+    },
+    editDishes(row) {
+      this.$router.push({ name: 'EditDishes', params: { dishesId: row.dishesId } })
     }
   }
 }
@@ -94,6 +127,10 @@ export default {
 <style lang="scss" scoped>
 .img {
   width: 100%;
+}
+.radio {
+  text-align: center;
+  padding: 15px 0;
 }
  
 </style>

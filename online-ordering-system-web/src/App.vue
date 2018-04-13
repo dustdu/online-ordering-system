@@ -46,6 +46,7 @@ export default {
 
 <style lang="less">
   @import '~vux/src/styles/reset.less';
+  @import '~vux/src/styles/1px.less';
 </style>
 
 <style lang="scss">
@@ -56,6 +57,7 @@ export default {
     height: 100%;
     width: 100%;
     overflow-x: hidden;
+    background-color: #f1f1f1;
   }
 </style>
 

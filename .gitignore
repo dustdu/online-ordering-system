@@ -23,3 +23,4 @@ online-ordering-system-service/yarn-error.log*
 online-ordering-system-web/yarn.lock
 online-ordering-system-admin/yarn.lock
 online-ordering-system-service/yarn.lock
+online-ordering-system-service/uploads/

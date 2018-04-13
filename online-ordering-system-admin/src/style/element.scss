@@ -1,0 +1,53 @@
+#app {
+  // 登录框
+  .login-container {
+    .el-input--small .el-input__inner {
+      height: 100%;
+      line-height: 80%;
+    }
+  }
+
+  // 导航栏
+  .el-submenu > .el-submenu__title {
+    background-color: #42485b !important;
+    height: 50px;
+    line-height: 50px;
+  }
+  .sidebar-container {
+    background-color: #333744 !important;
+  }
+  .el-submenu .el-menu-item {
+    height: 50px;
+    line-height: 50px;
+    background-color: #333744 !important;
+    &.is-active {
+      background-color: #00C1DE !important;
+      color: #fff !important;
+      &:hover {
+        background-color: #00C1DE !important;
+      }
+    }
+    &:hover {
+      background-color: #4a5064 !important;
+      color: #fff !important;
+    }
+  }
+  
+  .dishes-form {
+    .el-input>.el-input__inner {
+      width: 40%
+    }
+    .el-textarea .el-textarea__inner {
+      width: 80%
+    }
+    .el-select {
+      width: 185px;
+      .el-input__inner {
+        width: 100%;
+      }
+    }
+    .el-input-number .el-input__inner {
+      width: 100%;
+    }
+  }
+}

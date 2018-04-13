@@ -12,6 +12,7 @@ import { getToken } from './util/cookies'
 import VCharts from 'v-charts'
 import IconSvg from '@/components/Icon-svg/index'
 import VueSocketio from 'vue-socket.io'
+import axios from 'axios'
 
 Vue.use(VueSocketio, 'http://localhost:3000')
 Vue.use(ElementUI, { size: 'small' })
@@ -19,6 +20,7 @@ Vue.use(VCharts)
 Vue.component('icon-svg', IconSvg)
 
 Vue.config.productionTip = false
+Vue.prototype.$axios = axios
 
 router.beforeEach((to, from, next) => {
   NProgress.start()

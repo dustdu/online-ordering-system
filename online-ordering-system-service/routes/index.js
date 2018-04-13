@@ -1,7 +1,10 @@
 var express = require('express');
+var path = require('path');
+
 var router = express.Router();
 
 var mysql = require('../mysql')
+var upload = require('../utils/readFiles');
 var userSql = require('../api/users')
 var dishesSql = require('../api/dishes')
 var orderSql = require('../api/order')
@@ -11,6 +14,31 @@ router.get('/', function(req, res, next) {
   res.setHeader("Content-Type", "text/html");
   res.render('index', { title: 'Express' });
 });
+
+// 上传图片
+router.post('/upload', upload.single('uploadfile'), function (req, res, next) {
+  if (req.file) {
+      res.send('文件上传成功')
+      console.log(req.file);
+      console.log(req.body);
+  }
+});
+
+// 获取图片
+router.get('/img/:name',function (req, res, next) {
+  res.setHeader("Content-Type", "image/jpg");
+  
+  // var options = {
+  //   root: __dirname + '/upLoads/',
+  //   dotfiles: 'deny',
+  //   headers: {
+  //       'x-timestamp': Date.now(),
+  //       'x-sent': true
+  //   }
+  // };
+  
+  res.sendFile( path.resolve(__dirname, '..') + '/uploads/' +req.params.name);
+})
 
 // 用户注册
 router.post('/register', function(req, res, next) {
@@ -126,7 +154,56 @@ router.post('/getUsers', function(req, res, next) {
       if (err) {
         var result = {
             "status": "500",
-            "message": "服务器错误"
+            "message": "服务器错误",
+            "data": err
+          }
+        res.json(result);
+      }else{
+        var result = {
+            "status": "200",
+            "message": "success",
+            data:data
+          }
+        res.json(result);
+      }
+      connection.release()
+    })
+  })
+});
+
+// 添加餐品
+router.post('/addDishes', function(req, res, next) {
+  mysql.getConnection((err,connection)=>{
+    connection.query(dishesSql.addDishes, [req.body.name, req.body.price, req.body.discountPrice, req.body.activeFlag, req.body.recommend, req.body.discount, req.body.des, req.body.remark],(err,data)=>{
+      if (err) {
+        var result = {
+            "status": "500",
+            "message": "服务器错误",
+            "data": err
+          }
+        res.json(result);
+      }else{
+        var result = {
+            "status": "200",
+            "message": "success",
+            data:data
+          }
+        res.json(result);
+      }
+      connection.release()
+    })
+  })
+});
+
+// 更新餐品信息
+router.post('/updataDishes', function(req, res, next) {
+  mysql.getConnection((err,connection)=>{
+    connection.query(dishesSql.updataDishes, [req.body.name, req.body.price, req.body.discountPrice, req.body.activeFlag, req.body.recommend, req.body.discount, req.body.des, req.body.remark,req.body.dishesId],(err,data)=>{
+      if (err) {
+        var result = {
+            "status": "500",
+            "message": "服务器错误",
+            "data": err
           }
         res.json(result);
       }else{
@@ -187,6 +264,31 @@ router.post('/getDishes', function(req, res, next) {
       })
     }
     
+  })
+});
+
+// 获取餐品详情
+router.post('/getDishesDetail', function(req, res, next) {
+  mysql.getConnection((err,connection)=>{
+    connection.query(dishesSql.getDishesDetail,req.body.dishesId,(err,data)=>{
+      if (err) {
+        var result = {
+            "status": "500",
+            "dishesId": req.body.dishesId,
+            "message": "服务器错误"
+          }
+        res.json(result);
+      }else{
+        var result = {
+            "status": "200",
+            "dishesId": req.body.dishesId,
+            "message": "success",
+            data:data[0]
+          }
+        res.json(result);
+      }
+      connection.release()
+    })
   })
 });
 

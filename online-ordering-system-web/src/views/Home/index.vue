@@ -7,25 +7,40 @@
       @on-index-change="demo07_onIndexChange"
     >
     </swiper>
-    <divider v-text="newDishes"></divider>
-    <grid
-      :col="1"
-      slot="content"
-    >
-      <grid-item
-        label="Grid" 
-        v-for="i in 3"
-        :key="i"
-      >
-        
-      </grid-item>
-    </grid>
-    <div @click="grid()">{{userInfo}}</div>
+    <div class="card">
+      <divider>推荐餐品</divider>
+      <flexbox :gutter="0" wrap="wrap">
+        <flexbox-item 
+          :span="1/2"
+          v-for="key in 3"
+          :key="key"
+        >
+          <div 
+            class="flex-item"
+            :class="key%2 === 0?'item-right':'item-left'"
+          >
+            <img src="https://static.vux.li/demo/1.jpg" :class="key+1 >3?'item-bottom':''">
+          </div>
+        </flexbox-item>
+      </flexbox>
+    </div>
+    <div class="card">
+      <divider>热门餐品</divider>
+      <ul>
+        <li
+          v-for="dishes in hotDishesData"
+          :key="dishes.dishesId"
+        >
+          {{dishes.name}}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-  import { Swiper, Divider, Grid, GridItem, Loading } from 'vux'
+  import { Swiper, Divider, Flexbox, FlexboxItem } from 'vux'
+  import { request } from '../../utils/request'
   import { mapGetters } from 'vuex'
   const baseList = [{
     url: 'http://m.baidu.com',
@@ -44,39 +59,39 @@
     components: {
       Swiper,
       Divider,
-      Grid,
-      GridItem,
-      Loading
+      Flexbox,
+      FlexboxItem
     },
     data() {
       return {
-        newDishes: '',
+        newDishes: '推荐餐品',
         demo07_index: 0,
-        demo07_list: baseList
+        demo07_list: baseList,
+        hotDishesData: []
       }
     },
     created() {
-    // axios.get('http://localhost:3000/users')
-    //   .then(response => {
-    //     console.log(response.data)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
-    // console.log(new Date().getTime())
+      this.getHotDishes()
     },
     computed: {
       ...mapGetters([
-        'userInfo',
-        'isLoading'
+        'userInfo'
       ])
     },
     methods: {
       demo07_onIndexChange(index) {
         this.demo07_index = index
       },
-      grid() {
-        console.log(this.isLoading)
+      getHotDishes() {
+        request(
+          'getDishes',
+          {
+            activeFlg: -1
+          }
+        ).then(r => {
+          console.log(r)
+          this.hotDishesData = r.data
+        })
       }
     }
   }
@@ -87,5 +102,23 @@
   height: 50px;
   background-color: #ff8000;
   border-radius: 4px;
+}
+.item-bottom {
+  margin-bottom: -2px;
+}
+.flex-item {
+  display: flex;
+  margin-bottom: 2px;
+  img {
+    width: calc(100% - 1px);
+    height: 100%;
+    vertical-align: middle;
+  }
+}
+.item-left {
+  justify-content: flex-start;
+}
+.item-right {
+  justify-content: flex-end;
 }
 </style>

@@ -15,7 +15,7 @@
         :index="item.name"
       >
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i :class="item.icon"></i>
           <span>{{item.name}}</span>
         </template>
         <router-link
@@ -38,6 +38,7 @@
       return {
         navs: [
           {
+            icon: 'el-icon-info',
             name: '餐厅信息',
             routers: [
               {
@@ -47,6 +48,7 @@
             ]
           },
           {
+            icon: 'el-icon-date',
             name: '餐品',
             routers: [
               {
@@ -60,6 +62,7 @@
             ]
           },
           {
+            icon: 'el-icon-tickets',
             name: '订单',
             routers: [
               {
@@ -69,6 +72,7 @@
             ]
           },
           {
+            icon: 'el-icon-message',
             name: '消息',
             routers: [
               {
@@ -78,6 +82,7 @@
             ]
           },
           {
+            icon: 'el-icon-view',
             name: '用户',
             routers: [
               {
@@ -91,10 +96,10 @@
     },
     methods: {
       handleOpen(key, keyPath) {
-        console.log(key, keyPath, this.$router.path)
+        // console.log(key, keyPath, this.$router.path)
       },
       handleClose(key, keyPath) {
-        console.log(key, keyPath)
+        // console.log(key, keyPath)
       }
     }
   }

@@ -1,5 +1,6 @@
 @import './variable.scss';
 @import './mixin.scss';
+@import './element.scss';
 
 body {
   -moz-osx-font-smoothing: grayscale;
@@ -129,10 +130,4 @@ a:hover {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
-}
-
-// 登录输入框
-.el-input--small .el-input__inner {
-  height: 100%;
-  line-height: 80%;
 }
