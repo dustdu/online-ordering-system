@@ -8,11 +8,19 @@
       >
       </group-title>
       <x-input 
+        title="手机号：" 
+        v-model="mobile" 
+        :required="true"
+        placeholder="请输入手机号"
+        :max="11"
+      >
+      </x-input>
+      <x-input 
         title="用户名：" 
         v-model="userName" 
         :required="true"
         placeholder="请输入用户名"
-        :max="6"
+        :max="8"
       >
       </x-input>
       <x-input 
@@ -57,6 +65,7 @@ export default {
     return {
       title: '欢迎注册',
       titleColor: 'black',
+      mobile: '',
       userName: '',
       password: '',
       againPassword: '',
@@ -65,9 +74,12 @@ export default {
   },
   methods: {
     register() {
-      if (this.userName === '') {
+      if (this.mobile === '') {
+        this.$vux.toast.text('请输入手机号')
+      } else if (!/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.mobile)) {
+        this.$vux.toast.text('请输入正确手机号')
+      } else if (this.userName === '') {
         this.$vux.toast.text('请输入用户名')
-        console.log(new Date())
       } else if (this.password === '') {
         this.$vux.toast.text('请输入密码')
       } else if (this.againPassword === '') {
@@ -76,6 +88,7 @@ export default {
         this.$vux.toast.text('两次密码不一致！')
       } else {
         this.$store.dispatch('register', {
+          mobile: this.mobile.trim() * 1,
           userName: this.userName.trim(),
           password: this.password.trim()
         }).then(r => {

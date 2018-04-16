@@ -3,7 +3,7 @@
     <group>
       <group-title class="title" slot="title" v-text="title"></group-title>
       <x-input title="用户名：" v-model="userName"></x-input>
-      <x-input title="密码：" v-model="password"></x-input>
+      <x-input title="密码：" type="password" v-model="password"></x-input>
     </group>
     <div class="get-password">忘记密码？<span class="find-password">找回密码</span></div>
     <div class="submit">

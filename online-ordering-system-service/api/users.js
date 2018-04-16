@@ -1,5 +1,5 @@
 const users = {
-  addUser: 'INSERT INTO users(userName,password) VALUES(?,?)', 
+  addUser: 'INSERT INTO users(mobile,userName,password) VALUES(?,?,?)', 
   getUsers: 'SELECT * FROM user_list',
   //获取用户
   getUserByUserName: 'SELECT * FROM user_list WHERE userName = ?',

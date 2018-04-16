@@ -47,6 +47,7 @@ const user = {
         request(
           'register',
           {
+            mobile: registerInfo.mobile,
             userName: registerInfo.userName,
             password: registerInfo.password
           }
@@ -56,6 +57,8 @@ const user = {
             Vue.$vux.toast.text('用户名已存在', 'bottom')
             return
           }
+          console.log(r)
+
           if (r.data.length === 1) {
             Vue.$vux.toast.text('注册成功！', 'bottom')
             commit('userInfo', r.data)

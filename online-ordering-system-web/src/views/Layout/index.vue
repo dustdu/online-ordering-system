@@ -6,7 +6,7 @@
     <x-header
       slot="header"
       style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#06a355;"
-      :left-options="{showBack: true}"
+      :left-options="{showBack: false}"
     >
       <div class="title">
         {{title}}

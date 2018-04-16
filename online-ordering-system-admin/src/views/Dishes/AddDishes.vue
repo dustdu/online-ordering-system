@@ -5,13 +5,19 @@
         ref="form" 
         :model="form"
         :rules="rules"
-        label-width="80px" 
+        label-width="120px" 
         class="dishes-form"
       >
-        <el-form-item label="餐品名称" prop="name">
+        <el-form-item label="餐品名称：" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="餐品价格" prop="price">
+        <el-form-item label="上架">
+          <el-radio-group v-model="form.activeFlag">
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="餐品价格：" prop="price">
           <el-input-number 
             v-model="form.price" 
             controls-position="right" 
@@ -20,47 +26,45 @@
           >
           </el-input-number>
         </el-form-item>
-        <el-form-item label="优惠价格" prop="discountPrice">
-          <el-input-number 
-            v-model="form.discountPrice" 
-            controls-position="right" 
-            @change="handleChange" 
-            :min="0"
-          >
-          </el-input-number>
-        </el-form-item>
-        <el-form-item label="上架">
-          <el-radio-group v-model="form.activeFlag">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="推荐">
-          <el-radio-group v-model="form.recommend">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="0">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="优惠">
+        <el-form-item label="优惠：">
           <el-radio-group v-model="form.discount">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">否</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="餐品预览图">
-          <el-upload
-            action="http://localhost:3000/upload"
-            list-type="picture-card"
-            :on-change="fileChange"
-            name="uploadfile"
+        <el-form-item label="优惠价格：" prop="discountPrice">
+          <el-input-number 
+            v-model="form.discountPrice" 
+            controls-position="right" 
+            @change="handleChange" 
+            :min="0"
+            :disabled="form.discount === 0"
           >
-            <i class="el-icon-plus"></i>
+          </el-input-number>
+        </el-form-item>
+        <el-form-item label="推荐：">
+          <el-radio-group v-model="form.recommend">
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        
+        <el-form-item label="餐品预览图：">
+          <el-upload
+            class="avatar-uploader"
+            :show-file-list="false"
+            action="http://localhost:3000/upload"
+            name="uploadfile"
+            :on-success="uploadSuccess"
+          >
+            <img v-if="form.imgThumb" :src="form.imgThumb" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
           <!-- <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog> -->
         </el-form-item>
-        <el-form-item label="商品信息">
+        <el-form-item label="商品信息：">
           <el-input
             type="textarea"
             :rows="3"
@@ -69,7 +73,7 @@
           >
           </el-input>
         </el-form-item>
-        <el-form-item label="商品备注">
+        <el-form-item label="商品备注：">
           <el-input
             type="textarea"
             :rows="2"
@@ -90,9 +94,7 @@
 <script>
 import { request } from '../../util/request'
 export default {
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       form: {
@@ -103,15 +105,15 @@ export default {
         recommend: 0,
         discount: 0,
         des: '',
-        remark: ''
+        remark: '',
+        imgThumb: ''
       },
       rules: {
         name: [
           { required: true, message: '请输入餐品名称', trigger: 'blur' }
         ]
       },
-      isAdd: true,
-      updataFile: ''
+      isAdd: true
     }
   },
   created() {
@@ -168,35 +170,10 @@ export default {
           this.form = r.data
         })
     },
-    fileChange(file, fileList) {
-      console.log(file)
-      console.log(fileList)
-      this.updataFile = file
-    },
-    uploadImage() {
-      const fd = new FormData()
-      console.log(this.updataFile)
-
-      fd.append('upload', 1)
-      fd.append('uploadImage', this.updataFile)
-      fd.append('context', String(Date.parse(new Date())))
-      console.log(fd)
-      // this.$axios({
-      //   method: 'post',
-      //   data: fd,
-      //   baseURL: '',
-      //   url: 'http://localhost:3000',
-      //   headers: { 'Content-Type': false }
-      // })
-      //   .then(r => {
-      //     // this.$emit('uploadCallBack', r.data.data.url)
-      //     console.log(r)
-      //   })
-      //   .catch(error => {
-      //     console.log('上传出错:' + error.message)
-      //   })
+    uploadSuccess(res, file, fileList) {
+      console.log(res)
+      this.form.imgThumb = res.data.url
     }
-
   }
 }
 </script>
@@ -204,7 +181,27 @@ export default {
 <style lang="scss" scoped>
 .form {
   background-color: #fff;
-  
 }
- 
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    &:hover {
+      border: 1px dashed #409EFF;
+    }
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+    border-radius: 6px;
+  }
 </style>

@@ -2,9 +2,8 @@
   <div>
     <swiper 
       loop auto 
-      :list="demo07_list" 
-      :index="demo07_index" 
-      @on-index-change="demo07_onIndexChange"
+      :list="swiperList"
+      @on-index-change="onIndexChange"
     >
     </swiper>
     <div class="card">
@@ -12,23 +11,23 @@
       <flexbox :gutter="0" wrap="wrap">
         <flexbox-item 
           :span="1/2"
-          v-for="key in 3"
-          :key="key"
+          v-for="(recommendDishes,index) in recommendDishesData"
+          :key="index"
         >
           <div 
             class="flex-item"
-            :class="key%2 === 0?'item-right':'item-left'"
+            :class="index%2 === 0?'item-right':'item-left'"
           >
-            <img src="https://static.vux.li/demo/1.jpg" :class="key+1 >3?'item-bottom':''">
+            <img :src="recommendDishes.imgThumb" :class="index+1 >3?'item-bottom':''">
           </div>
         </flexbox-item>
       </flexbox>
     </div>
     <div class="card">
-      <divider>热门餐品</divider>
+      <divider>优惠餐品</divider>
       <ul>
         <li
-          v-for="dishes in hotDishesData"
+          v-for="dishes in discountDishesData"
           :key="dishes.dishesId"
         >
           {{dishes.name}}
@@ -41,20 +40,6 @@
 <script>
   import { Swiper, Divider, Flexbox, FlexboxItem } from 'vux'
   import { request } from '../../utils/request'
-  import { mapGetters } from 'vuex'
-  const baseList = [{
-    url: 'http://m.baidu.com',
-    img: 'https://static.vux.li/demo/1.jpg',
-    title: '送你一朵fua'
-  }, {
-    url: 'http://m.baidu.com',
-    img: 'https://static.vux.li/demo/2.jpg',
-    title: '送你一辆车'
-  }, {
-    url: 'http://m.baidu.com',
-    img: 'https://static.vux.li/demo/3.jpg',
-    title: '送你一次旅行'
-  }]
   export default {
     components: {
       Swiper,
@@ -64,34 +49,49 @@
     },
     data() {
       return {
-        newDishes: '推荐餐品',
-        demo07_index: 0,
-        demo07_list: baseList,
-        hotDishesData: []
+        swiperList: [],
+        newDishesData: [],
+        recommendDishesData: [],
+        discountDishesData: []
       }
     },
     created() {
-      this.getHotDishes()
-    },
-    computed: {
-      ...mapGetters([
-        'userInfo'
-      ])
+      this.getDishesData()
     },
     methods: {
-      demo07_onIndexChange(index) {
-        this.demo07_index = index
+      onIndexChange(index) {
+        console.log(index)
       },
-      getHotDishes() {
+      getDishesData() {
+        this.getTypeDishes('new')
+        this.getTypeDishes('recommend')
+        this.getTypeDishes('discount')
+      },
+      getTypeDishes(type) {
+        const dishesData = {
+          new: 'newDishesData',
+          recommend: 'recommendDishesData',
+          discount: 'discountDishesData'
+        }
         request(
-          'getDishes',
+          'getTypeDishes',
           {
-            activeFlg: -1
+            dishesType: type
           }
-        ).then(r => {
-          console.log(r)
-          this.hotDishesData = r.data
-        })
+          ).then(r => {
+            this[dishesData[type]] = r.data
+            if (type === 'new') {
+              this.swiperList = this.newDishesData.map(item => {
+                const swiper = {
+                  img: item.imgThumb,
+                  title: item.name
+                }
+                return swiper
+              })
+              console.log(this.swiperList)
+            }
+          }
+        )
       }
     }
   }

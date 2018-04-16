@@ -3,10 +3,11 @@
     <div class="list-wrap">
       <div class="radio">
         <el-radio-group v-model="radioValue" @change="radioChange">
-          <el-radio-button label="-1">所有餐品</el-radio-button>
-          <el-radio-button label="0">未上架</el-radio-button>
-          <el-radio-button label="1">已上架</el-radio-button>
-          <el-radio-button label="3">优惠餐品</el-radio-button>
+          <el-radio-button label="all">所有餐品</el-radio-button>
+          <el-radio-button label="off">未上架</el-radio-button>
+          <el-radio-button label="shelve">已上架</el-radio-button>
+          <el-radio-button label="discount">优惠餐品</el-radio-button>
+          <el-radio-button label="recommend">推荐餐品</el-radio-button>
         </el-radio-group>
       </div>
       <el-table
@@ -86,36 +87,22 @@ export default {
   data() {
     return {
       dishesList: [],
-      radioValue: -1
+      radioValue: 'all'
     }
   },
   created() {
-    this.getDishes()
+    this.radioChange('all')
   },
   methods: {
-    getDishes() {
+    radioChange(v) {
       request(
         'getDishes',
         {
-          activeFlg: -1
+          dishesState: v
         }
       ).then(r => {
-        console.log(r)
         this.dishesList = r.data
       })
-    },
-    radioChange(v) {
-      console.log(v)
-
-      // request(
-      //   'getDishes',
-      //   {
-      //     activeFlg: -1
-      //   }
-      // ).then(r => {
-      //   console.log(r)
-      //   this.dishesList = r.data
-      // })
     },
     editDishes(row) {
       this.$router.push({ name: 'EditDishes', params: { dishesId: row.dishesId } })
