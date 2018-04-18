@@ -3,6 +3,8 @@ var path = require('path');
 
 var router = express.Router();
 
+var dateTime = require('../utils/dateTime')()
+
 var mysql = require('../mysql')
 var upload = require('../utils/readFiles');
 var userSql = require('../api/users')
@@ -455,12 +457,10 @@ router.post('/getOrderList', function(req, res, next) {
         connection.release()
       })
     }
-    
   })
 });
 
-// TODO:获取订单详细信息
-
+// 后台登录
 router.post('/adminLogin', function(req, res, next) {
   mysql.getConnection((err,connection)=>{
     connection.query(adminSql.verifAdminName, req.body.adminName, (err,data)=>{
@@ -519,4 +519,64 @@ router.post('/adminLogin', function(req, res, next) {
   })
 });
 
+// 添加订单
+router.post('/addOrder', function (req,res,next) {
+  mysql.getConnection((err,connection)=>{
+    connection.query(userSql.getUserByUid, req.body.uId, (err,data)=>{
+      if (err) {
+        let result = {
+          "message": "获取用户信息失败",
+          "data": err
+        }
+        res.json(result);
+      }else{
+        let user = data[0]
+        // dateTime作为orderId有问题
+        connection.query(orderSql.addOrderList,[dateTime,user.uId,user.userName,user.mobile,req.body.payPrice,req.body.truePrice,req.body.payType,req.body.remark],(err,data)=>{
+          if (err) {
+            let result = {
+              "message": "添加订单失败",
+              "data": err
+            }
+            res.json(result);
+          }else{
+            for (const dishes of req.body.dishess) {
+              connection.query(dishesSql.getDishesDetail,dishes.dishesId,(err,data)=>{
+                if (err) {
+                  var result = {
+                      "dishesId": dishes.dishesId,
+                      "message": "获取餐品信息失败",
+                      "data": err
+                    }
+                  res.json(result);
+                }else{
+                  let dishesData = data[0]
+                  connection.query(orderSql.addOrderDishes,[dateTime,dishes.dishesId,dishesData.name,dishesData.imgThumb,dishesData.price,dishesData.discountPrice,dishes.count,dishesData.des,dishesData.remark],(err,data)=>{
+                    if (err) {
+                      var result = {
+                          "message": "添加订单餐品失败",
+                          "data": err
+                        }
+                      res.json(result);
+                    }else{
+                      if (dishes.dishesId === req.body.dishess.slice(-1)[0].dishesId) {
+                        var result = {
+                          "orderId": dateTime,
+                          "message": "添加订单成功",
+                          "data": data
+                        }
+                      res.json(result);
+                      }
+                    }
+                  })
+                }
+              })
+            }
+          }
+        })
+      }
+      connection.release()
+    })
+  })
+})
 module.exports = router;

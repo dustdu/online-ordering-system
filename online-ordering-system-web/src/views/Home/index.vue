@@ -13,26 +13,42 @@
           :span="1/2"
           v-for="(recommendDishes,index) in recommendDishesData"
           :key="index"
+          class="recommend-item"
         >
           <div 
             class="flex-item"
             :class="index%2 === 0?'item-right':'item-left'"
           >
-            <img :src="recommendDishes.imgThumb" :class="index+1 >3?'item-bottom':''">
+            <img :src="recommendDishes.imgThumb" :class="recommendDishesData.length%2 === 0?index+2 >=recommendDishesData.length?'item-bottom':'':index+2 >recommendDishesData.length?'item-bottom':''">
+          </div>
+          <div 
+            v-text="recommendDishes.name"
+            class="recommendName">
           </div>
         </flexbox-item>
       </flexbox>
     </div>
     <div class="card">
       <divider>优惠餐品</divider>
-      <ul>
-        <li
-          v-for="dishes in discountDishesData"
-          :key="dishes.dishesId"
+      <flexbox :gutter="0" wrap="wrap">
+        <flexbox-item 
+          :span="1/2"
+          v-for="(discountDishesData,index) in discountDishesData"
+          :key="index"
+          class="recommend-item"
         >
-          {{dishes.name}}
-        </li>
-      </ul>
+          <div 
+            class="flex-item"
+            :class="index%2 === 0?'item-right':'item-left'"
+          >
+            <img :src="discountDishesData.imgThumb" :class="discountDishesData.length%2 === 0?index+2 >=discountDishesData.length?'item-bottom':'':index+2 >discountDishesData.length?'item-bottom':''">
+          </div>
+          <div 
+            v-text="discountDishesData.name"
+            class="recommendName">
+          </div>
+        </flexbox-item>
+      </flexbox>
     </div>
   </div>
 </template>
@@ -60,7 +76,7 @@
     },
     methods: {
       onIndexChange(index) {
-        console.log(index)
+        // console.log(index)
       },
       getDishesData() {
         this.getTypeDishes('new')
@@ -88,7 +104,6 @@
                 }
                 return swiper
               })
-              console.log(this.swiperList)
             }
           }
         )
@@ -98,27 +113,38 @@
 </script>
 
 <style lang="scss" scoped>
-.entrance {
-  height: 50px;
-  background-color: #ff8000;
-  border-radius: 4px;
-}
-.item-bottom {
-  margin-bottom: -2px;
-}
-.flex-item {
-  display: flex;
-  margin-bottom: 2px;
-  img {
-    width: calc(100% - 1px);
-    height: 100%;
-    vertical-align: middle;
+.recommend-item {
+  position: relative;
+  .item-bottom {
+    margin-bottom: -2px;
   }
-}
-.item-left {
-  justify-content: flex-start;
-}
-.item-right {
-  justify-content: flex-end;
+  .flex-item {
+    display: flex;
+    margin-bottom: 2px;
+    justify-content: center;
+    img {
+      width: calc(100% - 2px);
+      height: 100%;
+      vertical-align: middle;
+    }
+  }
+  // .item-left {
+  //   justify-content: flex-end;
+  // }
+  // .item-right {
+  //   justify-content: flex-start;
+  // }
+  .recommendName {
+    position: absolute;
+    bottom: 0;
+    left: 1px;
+    right: 1px;
+    height: 24px;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+    line-height: 24px;
+    color: #fff;
+    padding-left: 10px;
+    font-size: 14px;
+  }
 }
 </style>

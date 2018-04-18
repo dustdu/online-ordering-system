@@ -49,6 +49,11 @@ export default new Router({
           path: 'dishes',
           name: 'Dishes',
           component: _import('Dishes')
+        },
+        {
+          path: '/shopCar',
+          name: 'ShopCar',
+          component: _import('ShopCar')
         }
 
       ]

@@ -8,6 +8,7 @@ const user = {
   mutations: {
     userInfo(state, userInfo) {
       state.userInfo = userInfo
+      // localStorage.setItem('userInfo', JSON.stringify(userInfo))
     }
   },
   actions: {
@@ -21,8 +22,6 @@ const user = {
           }
         )
         .then(r => {
-          console.log(r)
-
           if (r.user === 0) {
             Vue.$vux.toast.text('用户名不存在', 'bottom')
             return
@@ -57,8 +56,6 @@ const user = {
             Vue.$vux.toast.text('用户名已存在', 'bottom')
             return
           }
-          console.log(r)
-
           if (r.data.length === 1) {
             Vue.$vux.toast.text('注册成功！', 'bottom')
             commit('userInfo', r.data)

@@ -81,9 +81,7 @@
 <script>
 import { request } from '../../util/request'
 export default {
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       dishesList: [],

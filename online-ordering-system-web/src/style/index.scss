@@ -1,5 +1,6 @@
 @import './variable.scss';
 @import './transition.scss';
+@import './vux.scss';
 
 
 input::-webkit-input-placeholder,
@@ -7,6 +8,10 @@ textarea::-webkit-input-placeholder{
 	font-size: 14px;
 	color:#ccc;
 	text-align: left;
+}
+
+button {
+  border: 0;
 }
 
 

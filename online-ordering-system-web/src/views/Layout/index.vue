@@ -1,12 +1,12 @@
 <template>
   <view-box
     body-padding-top="46px"
-    body-padding-bottom="53px"
+    :body-padding-bottom="paddingBottom"
   >
     <x-header
       slot="header"
       style="width:100%;position:absolute;left:0;top:0;z-index:100;background:#06a355;"
-      :left-options="{showBack: false}"
+      :left-options="{showBack: isShowBack}"
     >
       <div class="title">
         {{title}}
@@ -21,6 +21,8 @@
     </transition>
     <tabbar
       slot="bottom"
+      v-model="index"
+      v-if="isShowBottom"
     >
       <tabbar-item
         v-for="item in tabbarList"
@@ -53,7 +55,8 @@
     },
     data() {
       return {
-        title: '欢迎订餐！',
+        index: 0,
+        paddingBottom: '53px',
         tabbarList: [
           {
             title: '首页',
@@ -62,7 +65,7 @@
           },
           {
             title: '点餐',
-            icon: 'fa-list-ul',
+            icon: 'fa-cart-arrow-down',
             link: '/dishes'
           },
           {
@@ -80,12 +83,31 @@
     },
     computed: {
       ...mapGetters([
-        'animationType'
+        'animationType',
+        'title',
+        'isShowBack',
+        'isShowBottom',
+        'selectedBottom'
       ]),
       viewTransition() {
         if (!this.animationType) return ''
         return 'vux-pop-' + (this.animationType === 'forward' ? 'in' : 'out')
       }
+    },
+    watch: {
+      isShowBottom(v) {
+        if (v) {
+          this.paddingBottom = '53px'
+        } else {
+          this.paddingBottom = '50px'
+        }
+      },
+      selectedBottom(v) {
+        this.index = this.selectedBottom
+      }
+    },
+    created() {
+      this.index = this.selectedBottom
     },
     methods: {
       itemClick() {

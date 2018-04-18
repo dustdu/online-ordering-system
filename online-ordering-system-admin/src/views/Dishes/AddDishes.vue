@@ -21,7 +21,7 @@
           <el-input-number 
             v-model="form.price" 
             controls-position="right" 
-            @change="handleChange" 
+            @change="priceChange" 
             :min="0"
           >
           </el-input-number>
@@ -35,8 +35,7 @@
         <el-form-item label="优惠价格：" prop="discountPrice">
           <el-input-number 
             v-model="form.discountPrice" 
-            controls-position="right" 
-            @change="handleChange" 
+            controls-position="right"
             :min="0"
             :disabled="form.discount === 0"
           >
@@ -155,8 +154,10 @@ export default {
           })
       })
     },
-    handleChange(v) {
-      console.log(v)
+    priceChange(v) {
+      if (this.form.discount === 0) {
+        this.form.discountPrice = v
+      }
     },
     getDishesDetail() {
       request(

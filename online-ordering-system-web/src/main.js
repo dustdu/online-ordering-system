@@ -50,7 +50,24 @@ methods.forEach(key => {
 })
 
 router.beforeEach((to, from, next) => {
+  // 底部导航选中
+  const selectedBottom = {
+    '/orderList': 2,
+    '/dishes': 1,
+    '/home': 0,
+    '/mine': 3
+  }
+  if (selectedBottom[to.path] || selectedBottom[to.path] === 0) {
+    store.commit('updataSelectedBottom', selectedBottom[to.path])
+  }
+
+  store.commit('updataTitle', '欢迎订餐')
+  store.commit('updataShowBack', false)
+  store.commit('updataShowBottom', true)
   store.commit('updataLoadingStatus', { status: true })
+  const carDishes = localStorage.getItem('carDishes')
+  // console.log(carDishes, typeof carDishes)
+  store.commit('updataCarDushes', carDishes ? JSON.parse(carDishes) : [])
   const toStamp = session.getItem(to.path)
   const fromStamp = session.getItem(from.path)
   if (toStamp) {
