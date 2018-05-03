@@ -58,7 +58,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="150"
+          width="80"
           fixed="right">
           <template slot-scope="scope">
             <el-button
@@ -67,10 +67,10 @@
             >
               编辑
             </el-button>
-            <el-button
+            <!-- <el-button
               type="danger">
               下架
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>

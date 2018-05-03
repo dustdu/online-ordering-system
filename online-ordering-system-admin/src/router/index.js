@@ -93,6 +93,19 @@ export default new Router({
           component: _import('Users/UserList')
         }
       ]
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Layout,
+      redirect: '/admin/add',
+      children: [
+        {
+          path: 'add',
+          name: 'AddAdmin',
+          component: _import('Admin/AddAdmin')
+        }
+      ]
     }
   ]
 })

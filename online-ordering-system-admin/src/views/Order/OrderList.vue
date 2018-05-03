@@ -89,6 +89,25 @@ export default {
         }
       ],
       listData: [{
+        listNub: '20180319090441773',
+        createDate: '2018-4-19',
+        listRemark: '清淡',
+        dishesList: [
+          {
+            id: '2',
+            name: '爽口小青菜',
+            price: '￥7',
+            createtime: '2018-04-16T06:14:42.000Z',
+            remark: ''
+          }, {
+            id: '4',
+            name: '手撕包菜',
+            price: '￥15',
+            createtime: '2018-04-16T06:14:42.000Z',
+            remark: ''
+          }
+        ]
+      }, {
         listNub: 'D454845454866',
         createDate: '2018-1-12',
         listRemark: '重辣',

@@ -37,16 +37,16 @@
     data() {
       return {
         navs: [
-          {
-            icon: 'el-icon-info',
-            name: '餐厅信息',
-            routers: [
-              {
-                name: '数据分析',
-                path: '/dashboard'
-              }
-            ]
-          },
+          // {
+          //   icon: 'el-icon-info',
+          //   name: '餐厅信息',
+          //   routers: [
+          //     {
+          //       name: '数据分析',
+          //       path: '/dashboard'
+          //     }
+          //   ]
+          // },
           {
             icon: 'el-icon-date',
             name: '餐品',
@@ -88,6 +88,16 @@
               {
                 name: '用户列表',
                 path: '/users/list'
+              }
+            ]
+          },
+          {
+            icon: 'el-icon-view',
+            name: '管理员',
+            routers: [
+              {
+                name: '添加管理员',
+                path: '/admin/add'
               }
             ]
           }

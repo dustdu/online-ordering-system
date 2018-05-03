@@ -3,7 +3,7 @@ var path = require('path');
 
 var router = express.Router();
 
-var dateTime = require('../utils/dateTime')()
+var dateTimeFun = require('../utils/dateTime')
 
 var mysql = require('../mysql')
 var upload = require('../utils/readFiles');
@@ -11,6 +11,7 @@ var userSql = require('../api/users')
 var dishesSql = require('../api/dishes')
 var orderSql = require('../api/order')
 var adminSql = require('../api/admin')
+var messageSql = require('../api/message')
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.setHeader("Content-Type", "text/html");
@@ -521,6 +522,7 @@ router.post('/adminLogin', function(req, res, next) {
 
 // 添加订单
 router.post('/addOrder', function (req,res,next) {
+  var dateTime = dateTimeFun()
   mysql.getConnection((err,connection)=>{
     connection.query(userSql.getUserByUid, req.body.uId, (err,data)=>{
       if (err) {
@@ -540,38 +542,48 @@ router.post('/addOrder', function (req,res,next) {
             }
             res.json(result);
           }else{
-            for (const dishes of req.body.dishess) {
-              connection.query(dishesSql.getDishesDetail,dishes.dishesId,(err,data)=>{
-                if (err) {
-                  var result = {
-                      "dishesId": dishes.dishesId,
-                      "message": "获取餐品信息失败",
-                      "data": err
-                    }
-                  res.json(result);
-                }else{
-                  let dishesData = data[0]
-                  connection.query(orderSql.addOrderDishes,[dateTime,dishes.dishesId,dishesData.name,dishesData.imgThumb,dishesData.price,dishesData.discountPrice,dishes.count,dishesData.des,dishesData.remark],(err,data)=>{
+            connection.query(messageSql.addMessage,['订单消息',`用户${user.userName}已下单，请尽快处理。`],(err,data)=>{
+              if (err) {
+                var result = {
+                    "message": "消息发送失败",
+                    "data": err
+                  }
+                res.json(result);
+              }else{
+                for (const dishes of req.body.dishess) {
+                  connection.query(dishesSql.getDishesDetail,dishes.dishesId,(err,data)=>{
                     if (err) {
                       var result = {
-                          "message": "添加订单餐品失败",
+                          "dishesId": dishes.dishesId,
+                          "message": "获取餐品信息失败",
                           "data": err
                         }
                       res.json(result);
                     }else{
-                      if (dishes.dishesId === req.body.dishess.slice(-1)[0].dishesId) {
-                        var result = {
-                          "orderId": dateTime,
-                          "message": "添加订单成功",
-                          "data": data
+                      let dishesData = data[0]
+                      connection.query(orderSql.addOrderDishes,[dateTime,dishes.dishesId,dishesData.name,dishesData.imgThumb,dishesData.price,dishesData.discountPrice,dishes.count,dishesData.des,dishesData.remark],(err,data)=>{
+                        if (err) {
+                          var result = {
+                              "message": "添加订单餐品失败",
+                              "data": err
+                            }
+                          res.json(result);
+                        }else{
+                          if (dishes.dishesId === req.body.dishess.slice(-1)[0].dishesId) {
+                            var result = {
+                              "orderId": dateTime,
+                              "message": "添加订单成功",
+                              "data": data
+                            }
+                          res.json(result);
+                          }
                         }
-                      res.json(result);
-                      }
+                      })
                     }
                   })
                 }
-              })
-            }
+              }
+            })
           }
         })
       }
@@ -579,4 +591,67 @@ router.post('/addOrder', function (req,res,next) {
     })
   })
 })
+
+// 获取用户订单
+router.post('/getUserOrderList', function(req, res, next) {
+  mysql.getConnection((err,connection)=>{
+    connection.query(orderSql.getUserOrderList, req.body.uId, (err,data)=>{
+      if (err) {
+        var result = {
+          "uId": req.body.uId,
+          "message": '获取用户订单失败',
+          "data": err,
+        }
+        res.json(result);
+      }else{
+        let orderList = data
+        for (const key in orderList) {
+          connection.query(orderSql.getOrderDishes, orderList[key].orderId, (err,data)=>{
+            if (err) {
+              var result = {
+                "orderId": item.orderId,
+                "message": '获取订单餐品失败',
+                "data": err,
+              }
+              res.json(result);
+            }else{
+              orderList[key].dishesList = data
+              if (orderList[key].orderId === orderList.slice(-1)[0].orderId) {
+                var result = {
+                  "uId": req.body.uId,
+                  "message": "success",
+                  data: orderList
+                }
+                res.json(result);
+              }
+            }
+          })
+        }
+      }
+      connection.release()
+    })
+  })
+});
+
+// 获取消息
+router.post('/getMessage', function(req, res, next) {
+  mysql.getConnection((err,connection)=>{
+    connection.query(messageSql.getMessage, (err,data)=>{
+      if (err) {
+        var result = {
+          "message": '获取消息失败',
+          "data": err,
+        }
+        res.json(result);
+      }else{
+        var result = {
+          "message": "success",
+          data:data
+        }
+        res.json(result);
+      }
+      connection.release()
+    })
+  })
+});
 module.exports = router;

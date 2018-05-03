@@ -7,7 +7,7 @@
         style="width: 100%"
       >
         <el-table-column
-          prop="uid"
+          prop="id"
           label="用户ID"
           width="80">
         </el-table-column>
@@ -22,16 +22,16 @@
           width="180">
         </el-table-column> -->
         <el-table-column
-          prop="trueName"
-          label="真实姓名"
+          prop="mobile"
+          label="手机"
           width="120">
         </el-table-column>
         <el-table-column
-          prop="registerTime"
+          prop="created_at"
           label="注册时间"
           width="120">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           label="操作"
           width="90">
           <template slot-scope="scope">
@@ -40,7 +40,7 @@
               查看
             </el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="remark"
           label="备注">

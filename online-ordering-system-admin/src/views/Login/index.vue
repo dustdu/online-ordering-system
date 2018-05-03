@@ -94,7 +94,7 @@ export default {
   width: 100%;
   height: 100%;
   height: 100vh;
-  background-color: #2d3a4b;
+  background-color: #eee;
   input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px #293444 inset !important;
     -webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;
@@ -106,8 +106,11 @@ export default {
     -webkit-appearance: none;
     border-radius: 0px;
     padding: 12px 5px 12px 15px;
-    color: #eeeeee;
+    color: #2d3a4b;
     height: 47px;
+    &::-webkit-input-placeholder {
+      color: #2d3a4b;
+    }
   }
   .el-input {
     display: inline-block;
@@ -121,7 +124,7 @@ export default {
   .title {
     font-size: 26px;
     font-weight: 400;
-    color: #eeeeee;
+    color: #2d3a4b;
     margin: 0px auto 40px auto;
     text-align: center;
     font-weight: bold;

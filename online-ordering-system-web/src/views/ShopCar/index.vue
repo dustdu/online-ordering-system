@@ -37,6 +37,12 @@
         :placeholder="placeholder"
       >
       </popup-picker>
+      <x-textarea 
+        :max="25"
+        v-model="remark"
+        :placeholder="userRemark"
+      >
+      </x-textarea>
     </group>
     <div class="bottom-box"></div>
     <div class="pay-order">
@@ -53,16 +59,19 @@
 </template>
 
 <script>
+import { request } from '../../utils/request'
 import { mapGetters } from 'vuex'
-import { PopupPicker, Group } from 'vux'
+import { PopupPicker, Group, XTextarea } from 'vux'
 export default {
   components: {
     PopupPicker,
-    Group
+    Group,
+    XTextarea
   },
   computed: {
     ...mapGetters([
-      'carDishes'
+      'carDishes',
+      'userInfo'
     ]),
     orderPrice() {
       if (this.carDishes.length !== 0) {
@@ -88,7 +97,9 @@ export default {
       payType: ['0'],
       payTitle: '选择支付方式：',
       checkList: [[{ name: '线下', value: '0' }, { name: '支付宝', value: '1' }, { name: '微信', value: '2' }]],
-      placeholder: '请选择支付方式'
+      placeholder: '请选择支付方式',
+      userRemark: '订单备注',
+      remark: ''
     }
   },
   created() {
@@ -98,7 +109,7 @@ export default {
   },
   methods: {
     onChange(v) {
-      console.log(v)
+      this.payType = v
     },
     payOrder() {
       const _this = this
@@ -107,11 +118,26 @@ export default {
         content: '确认支付该订单？',
         cancelText: '我再想一下',
         onConfirm() {
-          _this.$vux.toast.show({
-            text: '支付成功！'
-          })
-          _this.$store.commit('updataCarDushes', [])
-          _this.$router.push({ name: 'Home' })
+          request(
+              'addOrder',
+            {
+              uId: _this.userInfo[0].uId,
+              payPrice: _this.orderPrice,
+              truePrice: _this.discountPrice,
+              payType: _this.payType[0],
+              remark: _this.remark,
+              dishess: _this.carDishes
+            }
+          )
+            .then(r => {
+              _this.$vux.toast.show({
+                text: '支付成功！'
+              })
+              setTimeout(() => {
+                _this.$store.commit('updataCarDushes', [])
+                _this.$router.push({ name: 'Home' })
+              }, 1000)
+            })
         }
       })
     }

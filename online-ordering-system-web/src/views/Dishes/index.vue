@@ -5,7 +5,7 @@
       :key="item.dishesId"
       class="dishes-item"
     >
-      <div @click="addOrder">
+      <div>
         <img class="img" :src="item.imgThumb">
       </div>
       <div class="item-msg">
@@ -161,29 +161,6 @@ export default {
         return this.$vux.toast.text('您还没选购餐品！', 'bottom')
       }
       this.$router.push({ name: 'ShopCar' })
-    },
-    addOrder() {
-      const arr = [{
-        dishesId: 1000,
-        count: 2
-      }, {
-        dishesId: '1002',
-        count: '4'
-      }]
-
-      request(
-        'addOrder',
-        {
-          uId: '1',
-          payPrice: '111',
-          truePrice: '222',
-          payType: '1',
-          remark: '4545',
-          dishess: arr
-        }
-      ).then(r => {
-        console.log(r)
-      })
     }
   }
 }
